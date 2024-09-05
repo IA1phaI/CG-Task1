@@ -10,20 +10,42 @@ public class Comet extends PaintableObject{
     public Comet(int x, int y, int headRadius, Color color) {
         super(x, y);
         this.headRadius = headRadius;
-        this.tailLength = headRadius * 30;
+        this.tailLength = headRadius * 40;
+        this.color = color;
+    }
+
+    public int getHeadRadius() {
+        return headRadius;
+    }
+
+    public void setHeadRadius(int headRadius) {
+        this.headRadius = headRadius;
+    }
+
+    public int getTailLength() {
+        return tailLength;
+    }
+
+    public void setTailLength(int tailLength) {
+        this.tailLength = tailLength;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
         this.color = color;
     }
 
     @Override
     void draw(Graphics2D g2d) {
-
-        int tailStartX = (int)(getX() - headRadius * Math.sqrt(2) / 2);
-        int tailStartY = (int)(getY() + headRadius * Math.sqrt(2) / 2);
+        g2d.rotate(-0.785398, getX(), getY());
         g2d.setColor(color);
         g2d.setPaint(new RadialGradientPaint(
                 getX(),
                 getY(),
-                (float) tailLength * 2,
+                (float) (tailLength * 0.9),
                 new float[]{.05f, .95f},
                 new Color[]{
                         color,
@@ -36,22 +58,21 @@ public class Comet extends PaintableObject{
         ));
         g2d.fillPolygon(
                 new int[]{
-                        tailStartX,
-                        (int)(tailStartX + tailLength * Math.cos(-0.698132)),
-                        (int)(tailStartX + tailLength * Math.cos(-0.872665))
+                        getX() - headRadius,
+                        getX() + headRadius + tailLength,
+                        getX() + headRadius + tailLength,
                 },
                 new int[]{
-                        tailStartY,
-                        (int)(tailStartY + tailLength * Math.sin(-0.698132)),
-                        (int)(tailStartY + tailLength * Math.sin(-0.872665))},
+                        getY(),
+                        getY() + headRadius * 10,
+                        getY() - headRadius * 10},
                 3
         );
-
 
         g2d.setPaint(new RadialGradientPaint(
                 getX(),
                 getY(),
-                (float) tailLength * 2,
+                (float) (tailLength * 0.7),
                 new float[]{.05f, .95f},
                 new Color[]{
                         Color.white,
@@ -59,18 +80,17 @@ public class Comet extends PaintableObject{
         ));
         g2d.fillPolygon(
                 new int[]{
-                        tailStartX,
-                        (int)(tailStartX + tailLength / 1.5 * Math.cos(-0.750492)),
-                        (int)(tailStartX + tailLength / 1.5 * Math.cos(-0.820305))
+                        getX() - headRadius,
+                        getX() + headRadius + tailLength,
+                        getX() + headRadius + tailLength,
                 },
                 new int[]{
-                        tailStartY,
-                        (int)(tailStartY + tailLength / 1.5 * Math.sin(-0.750492)),
-                        (int)(tailStartY + tailLength / 1.5 * Math.sin(-0.820305))
-                },
+                        getY(),
+                        getY() + headRadius * 5,
+                        getY() - headRadius * 5},
                 3
         );
-
+        g2d.rotate(0.785398, getX(), getY());
         g2d.setColor(color);
         g2d.fillOval(getX() - headRadius, getY() - headRadius, headRadius << 1, headRadius << 1);
     }

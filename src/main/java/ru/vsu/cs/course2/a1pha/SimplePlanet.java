@@ -30,6 +30,7 @@ public class SimplePlanet extends PaintableObject{
 
     void drawOrbit(Graphics2D g2d) {
         g2d.setColor(Color.gray);
+        g2d.setStroke(new BasicStroke(2));
         int orbitRadius = (int) systemCenter.distance(getX(), getY());
         g2d.drawOval(
                 (int) (systemCenter.getX() - orbitRadius),

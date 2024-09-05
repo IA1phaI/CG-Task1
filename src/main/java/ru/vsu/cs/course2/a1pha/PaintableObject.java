@@ -27,7 +27,12 @@ public abstract class PaintableObject {
         this.y = y;
     }
 
-    public void move(int dx, int dy) {
+    public void move(int x, int y) {
+        setX(x);
+        setY(y);
+    }
+
+    public void translate(int dx, int dy) {
         x += dx;
         y += dy;
     }

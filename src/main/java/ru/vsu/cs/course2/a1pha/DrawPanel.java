@@ -10,17 +10,17 @@ public class DrawPanel extends JPanel {
     private int width, height;
     private double k;
     private Color[] starColors = new Color[]{
-            new Color(186, 172, 194),
-            new Color(255, 255, 255),
             new Color(162, 228, 255),
             new Color(100, 208, 189),
-            new Color(220, 140, 120)
+            new Color(220, 140, 120),
+            new Color(186, 172, 194),
+            new Color(255, 255, 255)
     };
 
     private List<SimplePlanet> planets;
     private BigStar sun;
     private SmallStar[] stars;
-    Comet comet;
+    Comet[] comets;
 
     private final Random random = new Random();
 
@@ -32,6 +32,11 @@ public class DrawPanel extends JPanel {
         generateStars(100);
 
         Point systemCenter = new Point((int) (- 300 * k), height / 2);
+
+        comets = new Comet[5] ;
+        for (int i = 0; i < comets.length; i++){
+                comets[i] = generateComet();
+        }
 
         planets = new ArrayList<>();
         planets.add(new SimplePlanet(
@@ -100,9 +105,6 @@ public class DrawPanel extends JPanel {
                 (int) (400 * k),
                 Color.orange,
                 Color.orange);
-
-        comet = new Comet((int) (360 * k), (int) (100 * k), 5, starColors[3]);
-
     }
 
     private void generateStars(int starsCount) {
@@ -116,9 +118,16 @@ public class DrawPanel extends JPanel {
         }
     }
 
+    private Comet generateComet() {
+        return new Comet(
+                random.nextInt(width),
+                (int) (-10 * k),
+                (int) (random.nextInt(1, 10) * k),
+                starColors[random.nextInt(3)]);
+    }
+
     @Override
     public void paint(Graphics g) {
-        System.out.println(getSize());
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
 
@@ -127,16 +136,32 @@ public class DrawPanel extends JPanel {
             star.draw(g2d);
         }
 
+        for (Comet comet : comets) {
+            comet.draw(g2d);
+        }
+
         for (PaintableObject planet : planets) {
             planet.draw(g2d);
         }
 
         sun.draw(g2d);
-        comet.draw(g2d);
     }
 
     public void toggleInvasion() {
         sun.setColors(Color.black, Color.red);
+        repaint();
+    }
+
+    public void motion() {
+        for (int i = 0; i < comets.length; i++) {
+            if (comets[i].getX() < - (comets[i].getTailLength() + comets[i].getHeadRadius() * 2) ||
+                    comets[i].getY() > height + comets[i].getTailLength() + comets[i].getHeadRadius() * 2) {
+                comets[i].move(random.nextInt(width), 0);
+                comets[i] = generateComet();
+            }
+            System.out.printf("%d %d\n", comets[i].getX(), comets[i].getY());
+            comets[i].translate(-(i + 2), i + 2);
+        }
         repaint();
     }
 }
