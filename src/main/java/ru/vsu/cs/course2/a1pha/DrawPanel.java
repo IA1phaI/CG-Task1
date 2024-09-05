@@ -20,7 +20,8 @@ public class DrawPanel extends JPanel {
     private List<SimplePlanet> planets;
     private BigStar sun;
     private SmallStar[] stars;
-    Comet[] comets;
+    Comet[] cometsBack;
+    Comet[] cometsFore;
 
     private final Random random = new Random();
 
@@ -33,9 +34,14 @@ public class DrawPanel extends JPanel {
 
         Point systemCenter = new Point((int) (- 300 * k), height / 2);
 
-        comets = new Comet[5] ;
-        for (int i = 0; i < comets.length; i++){
-                comets[i] = generateComet();
+        cometsBack = new Comet[4] ;
+        for (int i = 0; i < cometsBack.length; i++){
+            cometsBack[i] = generateComet();
+        }
+
+        cometsFore = new Comet[3];
+        for (int i = 0; i < cometsFore.length; i++){
+            cometsFore[i] = generateComet();
         }
 
         planets = new ArrayList<>();
@@ -120,7 +126,7 @@ public class DrawPanel extends JPanel {
 
     private Comet generateComet() {
         return new Comet(
-                random.nextInt(width),
+                random.nextInt(width * 3 / 2),
                 (int) (-10 * k),
                 (int) (random.nextInt(1, 10) * k),
                 starColors[random.nextInt(3)]);
@@ -136,7 +142,7 @@ public class DrawPanel extends JPanel {
             star.draw(g2d);
         }
 
-        for (Comet comet : comets) {
+        for (Comet comet : cometsBack) {
             comet.draw(g2d);
         }
 
@@ -145,6 +151,10 @@ public class DrawPanel extends JPanel {
         }
 
         sun.draw(g2d);
+
+        for (Comet comet : cometsFore) {
+            comet.draw(g2d);
+        }
     }
 
     public void toggleInvasion() {
@@ -153,15 +163,24 @@ public class DrawPanel extends JPanel {
     }
 
     public void motion() {
-        for (int i = 0; i < comets.length; i++) {
-            if (comets[i].getX() < - (comets[i].getTailLength() + comets[i].getHeadRadius() * 2) ||
-                    comets[i].getY() > height + comets[i].getTailLength() + comets[i].getHeadRadius() * 2) {
-                comets[i].move(random.nextInt(width), 0);
-                comets[i] = generateComet();
+        for (int i = 0; i < cometsBack.length; i++) {
+            if (isCometOnScreen(cometsBack[i])) {
+                cometsBack[i] = generateComet();
             }
-            System.out.printf("%d %d\n", comets[i].getX(), comets[i].getY());
-            comets[i].translate(-(i + 2), i + 2);
+            cometsBack[i].translate(-(i + 2), i + 2);
+        }
+
+        for (int i = 0; i < cometsFore.length; i++) {
+            if (isCometOnScreen(cometsFore[i])) {
+                cometsFore[i] = generateComet();
+            }
+            cometsFore[i].translate(-(i + 2), i + 2);
         }
         repaint();
+    }
+
+    private boolean isCometOnScreen(Comet comet) {
+        return comet.getX() < - (comet.getTailLength() + comet.getHeadRadius() * 2) ||
+                comet.getY() > height + comet.getTailLength() + comet.getHeadRadius() * 2;
     }
 }
