@@ -20,8 +20,9 @@ public class DrawPanel extends JPanel {
     private List<SimplePlanet> planets;
     private BigStar sun;
     private SmallStar[] stars;
-    Comet[] cometsBack;
-    Comet[] cometsFore;
+    private Comet[] cometsBack;
+    private Comet[] cometsFore;
+    private FallingStar[] fallingStars;
 
     private final Random random = new Random();
 
@@ -42,6 +43,11 @@ public class DrawPanel extends JPanel {
         cometsFore = new Comet[3];
         for (int i = 0; i < cometsFore.length; i++){
             cometsFore[i] = generateComet();
+        }
+
+        fallingStars = new FallingStar[2];
+        for (int i = 0; i < fallingStars.length; i++) {
+            fallingStars[i] = generateFallingStar();
         }
 
         planets = new ArrayList<>();
@@ -132,6 +138,16 @@ public class DrawPanel extends JPanel {
                 starColors[random.nextInt(3)]);
     }
 
+    private FallingStar generateFallingStar() {
+        return new FallingStar(
+                random.nextInt((int) (-100 * k), width),
+                random.nextInt(height),
+                (int) (random.nextInt(5, 100) * k),
+                (int) (random.nextInt(1, 4) * k),
+                Color.white,
+                random.nextInt(50, 5000));
+    }
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -140,6 +156,10 @@ public class DrawPanel extends JPanel {
         setBackground(new Color(11, 26, 59));
         for (SmallStar star : stars) {
             star.draw(g2d);
+        }
+
+        for (FallingStar fallingStar : fallingStars) {
+            fallingStar.draw(g2d);
         }
 
         for (Comet comet : cometsBack) {
@@ -175,6 +195,14 @@ public class DrawPanel extends JPanel {
                 cometsFore[i] = generateComet();
             }
             cometsFore[i].translate(-(i + 2), i + 2);
+        }
+
+        for (int i = 0; i < fallingStars.length; i++) {
+            if (fallingStars[i].getLeftTravelDistance() < 0) {
+                fallingStars[i] = generateFallingStar();
+            }
+
+            fallingStars[i].translate(- ((i + 1) * 50), (i + 1) * 50);
         }
         repaint();
     }

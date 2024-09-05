@@ -18,16 +18,8 @@ public class Comet extends PaintableObject{
         return headRadius;
     }
 
-    public void setHeadRadius(int headRadius) {
-        this.headRadius = headRadius;
-    }
-
     public int getTailLength() {
         return tailLength;
-    }
-
-    public void setTailLength(int tailLength) {
-        this.tailLength = tailLength;
     }
 
     public Color getColor() {
