@@ -31,7 +31,7 @@ public class DrawPanel extends JPanel {
 
         generateStars(100);
 
-        Point systemCenter = new Point((int) (- 200 * k), height / 2);
+        Point systemCenter = new Point((int) (- 300 * k), height / 2);
 
         planets = new ArrayList<>();
         planets.add(new SimplePlanet(
@@ -97,11 +97,11 @@ public class DrawPanel extends JPanel {
         sun = new BigStar(
                 (int) systemCenter.getX(),
                 (int) systemCenter.getY(),
-                (int) (330 * k),
+                (int) (400 * k),
                 Color.orange,
                 Color.orange);
 
-        comet = new Comet((int) (400 * k), (int) (100 * k), 5, starColors[3]);
+        comet = new Comet((int) (360 * k), (int) (100 * k), 5, starColors[3]);
 
     }
 

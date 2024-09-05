@@ -20,6 +20,20 @@ public class Comet extends PaintableObject{
         int tailStartX = (int)(getX() - headRadius * Math.sqrt(2) / 2);
         int tailStartY = (int)(getY() + headRadius * Math.sqrt(2) / 2);
         g2d.setColor(color);
+        g2d.setPaint(new RadialGradientPaint(
+                getX(),
+                getY(),
+                (float) tailLength * 2,
+                new float[]{.05f, .95f},
+                new Color[]{
+                        color,
+                        new Color(
+                                color.getRed(),
+                                color.getGreen(),
+                                color.getBlue(),
+                                0
+                        )}
+        ));
         g2d.fillPolygon(
                 new int[]{
                         tailStartX,
@@ -32,21 +46,17 @@ public class Comet extends PaintableObject{
                         (int)(tailStartY + tailLength * Math.sin(-0.872665))},
                 3
         );
-            g2d.setPaint(new RadialGradientPaint(
-                    getX(),
-                    getY(),
-                    (float) tailLength * 2,
-                    new float[]{.05f, .95f},
-                    new Color[]{
-                            color,
-                            new Color(
-                                    color.getRed(),
-                                    color.getGreen(),
-                                    color.getBlue(),
-                                    0
-                            )}
-            ));
-        g2d.setPaint(new GradientPaint(tailStartX, tailStartY, Color.white, tailStartX + tailLength, tailStartY + tailLength, Color.orange));
+
+
+        g2d.setPaint(new RadialGradientPaint(
+                getX(),
+                getY(),
+                (float) tailLength * 2,
+                new float[]{.05f, .95f},
+                new Color[]{
+                        Color.white,
+                        new Color(0,0,0,0)}
+        ));
         g2d.fillPolygon(
                 new int[]{
                         tailStartX,
