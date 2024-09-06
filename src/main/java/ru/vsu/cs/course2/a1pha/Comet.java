@@ -7,23 +7,28 @@ public class Comet extends PaintableObject{
     private int tailLength;
     private Color color;
 
+    public Comet(){
+        super();
+    }
+
     public Comet(int x, int y, int headRadius, Color color) {
         super(x, y);
         this.headRadius = headRadius;
-        this.tailLength = headRadius * 40;
         this.color = color;
+        this.tailLength = headRadius * 40;
     }
 
     public int getHeadRadius() {
         return headRadius;
     }
 
-    public int getTailLength() {
-        return tailLength;
+    public void setHeadRadius(int headRadius) {
+        this.headRadius = headRadius;
+        this.tailLength = headRadius * 40;
     }
 
-    public Color getColor() {
-        return color;
+    public int getTailLength() {
+        return tailLength;
     }
 
     public void setColor(Color color) {

@@ -8,6 +8,8 @@ public class FallingStar extends PaintableObject {
     private Color color;
     private int leftTravelDistance;
 
+    public FallingStar(){}
+
     public FallingStar(int x, int y, int length, int height, Color color, int distanceToTravel) {
         super(x, y);
         this.length = length;
@@ -16,8 +18,24 @@ public class FallingStar extends PaintableObject {
         this.leftTravelDistance = distanceToTravel;
     }
 
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     public int getLeftTravelDistance() {
         return leftTravelDistance;
+    }
+
+    public void setLeftTravelDistance(int leftTravelDistance) {
+        this.leftTravelDistance = leftTravelDistance;
     }
 
     @Override

@@ -49,17 +49,20 @@ public class DrawPanel extends JPanel {
 
         cometsBack = new Comet[2] ;
         for (int i = 0; i < cometsBack.length; i++){
-            cometsBack[i] = generateComet();
+            cometsBack[i] = new Comet();
+            reuseComet(cometsBack[i]);
         }
 
         cometsFore = new Comet[1];
         for (int i = 0; i < cometsFore.length; i++){
-            cometsFore[i] = generateComet();
+            cometsFore[i] = new Comet();
+            reuseComet(cometsFore[i]);
         }
 
         fallingStars = new FallingStar[2];
         for (int i = 0; i < fallingStars.length; i++) {
-            fallingStars[i] = generateFallingStar();
+            fallingStars[i] = new FallingStar();
+            reuseFallingStar(fallingStars[i]);
         }
 
         planets = new SimplePlanet[8];
@@ -101,22 +104,20 @@ public class DrawPanel extends JPanel {
         }
     }
 
-    private Comet generateComet() {
-        return new Comet(
-                random.nextInt(width * 3 / 2),
-                (int) (-10 * k),
-                (int) (random.nextInt(1, 10) * k),
-                starColors[random.nextInt(3)]);
+    private void reuseComet(Comet comet) {
+        comet.setX(random.nextInt(width * 3 / 2));
+        comet.setY((int) (-10 * k));
+        comet.setHeadRadius((int) (random.nextInt(1, 10) * k));
+        comet.setColor(starColors[random.nextInt(3)]);
     }
 
-    private FallingStar generateFallingStar() {
-        return new FallingStar(
-                random.nextInt((int) (-100 * k), width),
-                random.nextInt(height),
-                (int) (random.nextInt(5, 100) * k),
-                (int) (random.nextInt(1, 4) * k),
-                Color.white,
-                random.nextInt(50, 5000));
+    private void reuseFallingStar(FallingStar fallingStar) {
+        fallingStar.setX(random.nextInt((int) (-100 * k), width));
+        fallingStar.setY(random.nextInt((int) (-100 * k), height));
+        fallingStar.setLength((int) (random.nextInt(5, 100) * k));
+        fallingStar.setHeight((int) (random.nextInt(1, 4) * k));
+        fallingStar.setColor(Color.white);
+        fallingStar.setLeftTravelDistance(random.nextInt(50, 5000));
     }
 
     @Override
@@ -156,21 +157,21 @@ public class DrawPanel extends JPanel {
     public void motion() {
         for (int i = 0; i < cometsBack.length; i++) {
             if (isCometOnScreen(cometsBack[i])) {
-                cometsBack[i] = generateComet();
+                reuseComet(cometsBack[i]);
             }
             cometsBack[i].translate(-(i + 2), i + 2);
         }
 
         for (int i = 0; i < cometsFore.length; i++) {
             if (isCometOnScreen(cometsFore[i])) {
-                cometsFore[i] = generateComet();
+                reuseComet(cometsFore[i]);
             }
             cometsFore[i].translate(-(i + 2), i + 2);
         }
 
         for (int i = 0; i < fallingStars.length; i++) {
             if (fallingStars[i].getLeftTravelDistance() < 0) {
-                fallingStars[i] = generateFallingStar();
+                 reuseFallingStar(fallingStars[i]);
             }
 
             fallingStars[i].translate(- ((i + 1) * 50), (i + 1) * 50);
