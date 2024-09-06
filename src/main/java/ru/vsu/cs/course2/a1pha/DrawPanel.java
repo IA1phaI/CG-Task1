@@ -2,8 +2,6 @@ package ru.vsu.cs.course2.a1pha;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class DrawPanel extends JPanel {
@@ -17,12 +15,26 @@ public class DrawPanel extends JPanel {
             new Color(255, 255, 255)
     };
 
-    private List<SimplePlanet> planets;
+    private SimplePlanet[] planets;
     private BigStar sun;
     private SmallStar[] stars;
     private Comet[] cometsBack;
     private Comet[] cometsFore;
     private FallingStar[] fallingStars;
+
+    private int[] planetsX = new int[]{170, 205, 245, 285, 375, 530, 630, 710};
+    private int[] planetsRadiuses = new int[]{10, 18, 20, 15, 70, 50, 30, 30};
+    private int[] beltRadiuses = new int[]{0, 0, 0, 0, 90, 100, 40, 50};
+    private Color[] normalPlanetColors = new Color[] {
+            Color.yellow.darker(),
+            Color.orange.darker(),
+            Color.cyan.darker(),
+            Color.red.darker(),
+            new Color(180, 120, 60),
+            Color.orange.darker().darker().darker(),
+            Color.cyan.darker().darker().darker(),
+            Color.blue.darker()
+    };
 
     private final Random random = new Random();
 
@@ -35,12 +47,12 @@ public class DrawPanel extends JPanel {
 
         Point systemCenter = new Point((int) (- 300 * k), height / 2);
 
-        cometsBack = new Comet[4] ;
+        cometsBack = new Comet[2] ;
         for (int i = 0; i < cometsBack.length; i++){
             cometsBack[i] = generateComet();
         }
 
-        cometsFore = new Comet[3];
+        cometsFore = new Comet[1];
         for (int i = 0; i < cometsFore.length; i++){
             cometsFore[i] = generateComet();
         }
@@ -50,66 +62,25 @@ public class DrawPanel extends JPanel {
             fallingStars[i] = generateFallingStar();
         }
 
-        planets = new ArrayList<>();
-        planets.add(new SimplePlanet(
-                (int) (170 * k),
-                (int) systemCenter.getY(),
-                (int) (10 * k),
-                Color.yellow.darker(),
-                systemCenter));
-
-        planets.add(new SimplePlanet(
-                (int) (205 * k),
-                (int) systemCenter.getY(),
-                (int) (18 * k),
-                Color.orange.darker(),
-                systemCenter));
-
-        planets.add(new SimplePlanet(
-                (int) (245 * k),
-                (int) systemCenter.getY(),
-                (int) (20 * k),
-                Color.cyan.darker(),
-                systemCenter));
-
-        planets.add(new SimplePlanet(
-                (int) (285 * k),
-                (int) systemCenter.getY(),
-                (int) (15 * k),
-                Color.red.darker(),
-                systemCenter));
-
-        planets.add(new BeltedPlanet(
-                (int) (375 * k),
-                (int) systemCenter.getY(),
-                (int) (70 * k),
-                (int) (90 * k),
-                new Color(180, 120, 60),
-                systemCenter));
-
-        planets.add(new BeltedPlanet(
-                (int) (530 * k),
-                (int) systemCenter.getY(),
-                (int) (50 * k),
-                (int) (100 * k),
-                Color.orange.darker().darker().darker(),
-                systemCenter));
-
-        planets.add(new BeltedPlanet(
-                (int) (630 * k),
-                (int) systemCenter.getY(),
-                (int) (30 * k),
-                (int) (40 * k),
-                Color.cyan.darker().darker().darker(),
-                systemCenter));
-
-        planets.add(new BeltedPlanet(
-                (int) (710 * k),
-                (int) systemCenter.getY(),
-                (int) (30 * k),
-                (int) (50 * k),
-                Color.blue.darker(),
-                systemCenter));
+        planets = new SimplePlanet[8];
+        for (int i = 0; i < planets.length; i++) {
+            if (beltRadiuses[i] == 0) {
+                planets[i] = new SimplePlanet(
+                        (int) (planetsX[i] * k),
+                        (int) systemCenter.getY(),
+                        (int) (planetsRadiuses[i] * k),
+                        normalPlanetColors[i],
+                        systemCenter);
+            } else {
+                planets[i] = new BeltedPlanet(
+                        (int) (planetsX[i] * k),
+                        (int) systemCenter.getY(),
+                        (int) (planetsRadiuses[i] * k),
+                        (int) (beltRadiuses[i] * k),
+                        normalPlanetColors[i],
+                        systemCenter);
+            }
+        }
 
         sun = new BigStar(
                 (int) systemCenter.getX(),
