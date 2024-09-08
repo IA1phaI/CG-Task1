@@ -1,6 +1,8 @@
 package ru.vsu.cs.course2.a1pha;
 
-public abstract class PaintableObject implements PaintableObjectInterface {
+import java.awt.*;
+
+public abstract class PaintableObject {
     private int x;
     private int y;
 
@@ -36,4 +38,6 @@ public abstract class PaintableObject implements PaintableObjectInterface {
         x += dx;
         y += dy;
     }
+
+    public abstract void draw(Graphics2D g2d);
 }
