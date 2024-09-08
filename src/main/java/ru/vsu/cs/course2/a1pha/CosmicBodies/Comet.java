@@ -1,23 +1,27 @@
 package ru.vsu.cs.course2.a1pha.CosmicBodies;
 
 import ru.vsu.cs.course2.a1pha.PaintableObject;
+import ru.vsu.cs.course2.a1pha.PaintableObjectInterface;
+import ru.vsu.cs.course2.a1pha.TickMovingObject;
 
 import java.awt.*;
 
-public class Comet extends PaintableObject {
+public class Comet extends TickMovingObject {
     private int headRadius;
     private int tailLength;
+
+
     private Color color;
 
     public Comet(){
         super();
     }
 
-    public Comet(int x, int y, int headRadius, Color color) {
-        super(x, y);
+    public Comet(int x, int y, int headRadius, int speed, int angdeg, Color color) {
+        super(x, y, speed, angdeg);
         this.headRadius = headRadius;
-        this.color = color;
         this.tailLength = headRadius * 40;
+        this.color = color;
     }
 
     public int getHeadRadius() {
@@ -39,7 +43,7 @@ public class Comet extends PaintableObject {
 
     @Override
     public void draw(Graphics2D g2d) {
-        g2d.rotate(-0.785398, getX(), getY());
+        g2d.rotate(-Math.toRadians(getMovingAngleDeg()), getX(), getY());
         g2d.setColor(color);
         g2d.setPaint(new RadialGradientPaint(
                 getX(),
@@ -89,7 +93,7 @@ public class Comet extends PaintableObject {
                         getY() - headRadius * 5},
                 3
         );
-        g2d.rotate(0.785398, getX(), getY());
+        g2d.rotate(Math.toRadians(getMovingAngleDeg()), getX(), getY());
         g2d.setColor(color);
         g2d.fillOval(getX() - headRadius, getY() - headRadius, headRadius << 1, headRadius << 1);
     }

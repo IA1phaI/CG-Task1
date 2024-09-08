@@ -1,19 +1,21 @@
 package ru.vsu.cs.course2.a1pha.CosmicBodies;
 
 import ru.vsu.cs.course2.a1pha.PaintableObject;
+import ru.vsu.cs.course2.a1pha.PaintableObjectInterface;
+import ru.vsu.cs.course2.a1pha.TickMovingObject;
 
 import java.awt.*;
 
-public class FallingStar extends PaintableObject {
+public class FallingStar extends TickMovingObject {
     private int length;
     private int height;
-    private Color color;
     private int leftTravelDistance;
+    private Color color;
 
     public FallingStar(){}
 
-    public FallingStar(int x, int y, int length, int height, Color color, int distanceToTravel) {
-        super(x, y);
+    public FallingStar(int x, int y, int length, int height, int speed, int distanceToTravel, int angdeg, Color color) {
+        super(x, y, speed, angdeg);
         this.length = length;
         this.height = height;
         this.color = color;
@@ -43,14 +45,20 @@ public class FallingStar extends PaintableObject {
     @Override
     public void draw(Graphics2D g2d) {
         g2d.setColor(color);
-        g2d.rotate(-0.785398, getX(), getY());
+        g2d.rotate(-Math.toRadians(getMovingAngleDeg()), getX(), getY());
         g2d.fillRoundRect(getX() - (length / 2), getY() - (height / 2), length, height, 5, 5);
-        g2d.rotate(0.785398, getX(), getY());
+        g2d.rotate(Math.toRadians(getMovingAngleDeg()), getX(), getY());
     }
     
     @Override
     public void translate(int dx, int dy) {
         super.translate(dx, dy);
         leftTravelDistance -= (int) Math.sqrt(dx * dx + dy * dy);
+    }
+
+    @Override
+    public void tickMove() {
+        super.tickMove();
+        leftTravelDistance -= getSpeed();
     }
 }

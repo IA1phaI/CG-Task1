@@ -53,13 +53,23 @@ public class PlanetSystemSettings {
     public final int fallingStarMinHeight = 1;
     public final int fallingStarMaxHeight = 4;
     public final int fallingStarMinTravelDistance = 5;
-    public final int fallingStarMaxTravelDistance = 10;
+    public final int fallingStarMaxTravelDistance = 20;
+    public final int fallingStarMinSpeed = 200;
+    public final int fallingStarMaxSpeed = 500;
 
-    public final int cometMinHeadRadius = 1;
+    public final int cometMinHeadRadius = 4;
     public final int cometMaxHeadRadius = 10;
+    public final int cometMinSpeed = 2;
+    public final int cometMaxSpeed = 10;
 
     public final int smallStarMinRadius = 1;
     public final int smallStarMaxRadius = 3;
 
     public final int sunRadius = 400;
+
+    public final Color invasionTextColor = Color.red;
+    public final String invasionText = "INVASION";
+    public final Font invasionTextFont = new Font( "SansSerif", Font.BOLD, 50 );
+
+    public final int fallingAngle = 45;
 }

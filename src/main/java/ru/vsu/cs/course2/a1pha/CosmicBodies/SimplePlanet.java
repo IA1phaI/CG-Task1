@@ -1,6 +1,7 @@
 package ru.vsu.cs.course2.a1pha.CosmicBodies;
 
 import ru.vsu.cs.course2.a1pha.PaintableObject;
+import ru.vsu.cs.course2.a1pha.Point;
 
 import java.awt.*;
 
@@ -37,9 +38,9 @@ public class SimplePlanet extends PaintableObject {
     void drawOrbit(Graphics2D g2d) {
         g2d.setColor(Color.gray);
         g2d.setStroke(new BasicStroke(2));
-        int orbitRadius = (int) systemCenterPoint.distance(getX(), getY());
+        int orbitRadius = (int) systemCenterPoint.distanceTo(getX(), getY());
         g2d.drawOval(
-                (int) (systemCenterPoint.getX() - orbitRadius),
+                (int) (systemCenterPoint.x() - orbitRadius),
                 getY() - orbitRadius, orbitRadius << 1,
                 orbitRadius << 1);
     }

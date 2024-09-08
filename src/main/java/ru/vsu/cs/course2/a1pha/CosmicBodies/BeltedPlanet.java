@@ -1,6 +1,7 @@
 package ru.vsu.cs.course2.a1pha.CosmicBodies;
 
 import java.awt.*;
+import ru.vsu.cs.course2.a1pha.Point;
 
 public class BeltedPlanet extends SimplePlanet {
     private int beltWidth;

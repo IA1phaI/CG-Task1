@@ -5,6 +5,8 @@ import ru.vsu.cs.course2.a1pha.CosmicBodies.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Random;
@@ -31,12 +33,14 @@ public class DrawPanel extends JPanel {
 
     private final Random random = new Random();
 
+    private final MousePointer mousePointer = new MousePointer(5);
+
     private CosmicBodiesGenerator generator;
 
     public DrawPanel(int frameWidth, int frameHeight) {
         scalingFactor = ((double) frameWidth) / 800;
         this.width = frameWidth - 36;
-        this.height = frameHeight - 90;
+        this.height = frameHeight - 66;
 
         generator = new CosmicBodiesGenerator(height, width, scalingFactor);
 
@@ -59,14 +63,14 @@ public class DrawPanel extends JPanel {
             if (settings.beltRadiuses[i] == 0) {
                 planets.add(new SimplePlanet(
                         (int) (settings.planetsX[i] * scalingFactor),
-                        (int) systemCenterPoint.getY(),
+                        systemCenterPoint.y(),
                         (int) (settings.planetsRadiuses[i] * scalingFactor),
                         settings.normalPlanetsPalette[i],
                         systemCenterPoint));
             } else {
                 planets.add(new BeltedPlanet(
                         (int) (settings.planetsX[i] * scalingFactor),
-                        (int) systemCenterPoint.getY(),
+                        systemCenterPoint.y(),
                         (int) (settings.planetsRadiuses[i] * scalingFactor),
                         (int) (settings.beltRadiuses[i] * scalingFactor),
                         settings.normalPlanetsPalette[i],
@@ -75,11 +79,66 @@ public class DrawPanel extends JPanel {
         }
 
         sun = new BigStar(
-                (int) systemCenterPoint.getX(),
-                (int) systemCenterPoint.getY(),
+                systemCenterPoint.x(),
+                systemCenterPoint.y(),
                 (int) (settings.sunRadius * scalingFactor),
                 settings.normalSunMainColor,
                 settings.noramalSunLightColor);
+
+        this.setCursor(this.getToolkit().createCustomCursor(
+                new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB ),
+                new java.awt.Point(),
+                null ) );
+        this.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent mouseEvent) {
+                mousePointer.move(mouseEvent.getX(), mouseEvent.getY());
+            }
+        });
+
+        this.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println(e.getPoint() + " " + height + " " + width);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        manager.addKeyEventDispatcher(new KeyEventDispatcher() {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) {
+//                System.out.println(e.getKeyCode());
+                if (e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() == 32) {
+                    toggleInvasion();
+                }
+                return false;
+            }
+        });
     }
 
     private <T extends PaintableObject> void drawObjectArrays(@NotNull AbstractList<T> objects, Graphics2D g2d) {
@@ -110,7 +169,14 @@ public class DrawPanel extends JPanel {
 
         if (isInvasion) {
             drawObjectArrays(invasionCometsFore, g2d);
+            g2d.setColor(settings.invasionTextColor);
+            g2d.setFont(settings.invasionTextFont);
+            g2d.drawString(settings.invasionText,
+                    width / 9 * 4,
+                    height / 2);
         }
+
+        mousePointer.draw(g2d);
     }
 
     private void animateComets(ArrayList<Comet> comets) {
@@ -118,19 +184,17 @@ public class DrawPanel extends JPanel {
             if (isCometOnScreen(comets.get(i))) {
                 generator.reuseComet(comets.get(i));
             }
-            comets.get(i).translate(-(i + 2), i + 2);
+            comets.get(i).tickMove();
         }
     }
 
     private void animateFallingStars(ArrayList<FallingStar> fallingStars) {
         for (int i = 0; i < fallingStars.size(); i++) {
-            if (fallingStars.get(i).getLeftTravelDistance() < 0 & random.nextInt(5) == 1) {
+            if (fallingStars.get(i).getLeftTravelDistance() < 0 & random.nextInt(50) == 1) {
                 generator.reuseFallingStar(fallingStars.get(i));
             }
 
-            fallingStars.get(i).translate(
-                    - ((i + 1) * 100),
-                    (i + 1) * 100);
+            fallingStars.get(i).tickMove();
         }
     }
 

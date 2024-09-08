@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 public class MainFrame extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
-    private JButton buttonCancel;
     private JPanel paintAreaPanel;
     private DrawPanel drawPanel;
     private int frameWidth, frameHeight;
@@ -33,9 +32,6 @@ public class MainFrame extends JDialog {
         setMaximumSize(new Dimension(frameWidth, frameHeight));
         setResizable(false);
         timer.start();
-        buttonOK.addActionListener(action ->{
-            drawPanel.toggleInvasion();
-        });
     }
 
     public static void main(String[] args) {
