@@ -1,7 +1,10 @@
 package ru.vsu.cs.course2.a1pha;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class DrawPanel extends JPanel {
@@ -18,14 +21,15 @@ public class DrawPanel extends JPanel {
     private SimplePlanet[] planets;
     private BigStar sun;
     private SmallStar[] stars;
-    private Comet[] cometsBack;
-    private Comet[] cometsFore;
-    private FallingStar[] fallingStars;
+    private ArrayList<Comet> cometsBack;
+    private ArrayList<Comet> cometsFore;
+    private ArrayList<FallingStar> fallingStars;
+    private Point systemCenter = new Point();
 
     private int[] planetsX = new int[]{170, 205, 245, 285, 375, 530, 630, 710};
     private int[] planetsRadiuses = new int[]{10, 18, 20, 15, 70, 50, 30, 30};
     private int[] beltRadiuses = new int[]{0, 0, 0, 0, 90, 100, 40, 50};
-    private Color[] normalPlanetColors = new Color[] {
+    private Color[] normalPlanetsPalette = new Color[] {
             Color.yellow.darker(),
             Color.orange.darker(),
             Color.cyan.darker(),
@@ -36,6 +40,25 @@ public class DrawPanel extends JPanel {
             Color.blue.darker()
     };
 
+    private Color normalSunMainColor = Color.orange;
+    private Color noramalSunLightColor = Color.orange;
+
+    private Color[] invasionPlanetsPalette = new Color[] {
+            Color.yellow.darker().darker().darker().darker(),
+            Color.orange.darker().darker().darker().darker(),
+            Color.cyan.darker().darker().darker().darker(),
+            Color.red.darker().darker().darker().darker(),
+            new Color(180, 120, 60).darker().darker().darker(),
+            Color.orange.darker().darker().darker().darker().darker().darker(),
+            Color.cyan.darker().darker().darker().darker().darker().darker(),
+            Color.blue.darker().darker().darker().darker()
+    };
+
+    private Color invasionSunMainColor = Color.black;
+    private Color invasionSunLightColor = Color.red;
+
+    private boolean isInvasion = false;
+
     private final Random random = new Random();
 
     public DrawPanel(int frameWidth, int frameHeight) {
@@ -43,27 +66,18 @@ public class DrawPanel extends JPanel {
         this.width = frameWidth - 36;
         this.height = frameHeight - 90;
 
-        generateStars(100);
+        stars = generateStars(100);
 
-        Point systemCenter = new Point((int) (- 300 * k), height / 2);
+        systemCenter = new Point((int) (- 300 * k), height / 2);
 
-        cometsBack = new Comet[2] ;
-        for (int i = 0; i < cometsBack.length; i++){
-            cometsBack[i] = new Comet();
-            reuseComet(cometsBack[i]);
-        }
+        cometsBack =  new ArrayList<>();
+        changeCometsCount(cometsBack, 2);
 
-        cometsFore = new Comet[1];
-        for (int i = 0; i < cometsFore.length; i++){
-            cometsFore[i] = new Comet();
-            reuseComet(cometsFore[i]);
-        }
+        cometsFore = new ArrayList<>();
+        changeCometsCount(cometsFore, 1);
 
-        fallingStars = new FallingStar[2];
-        for (int i = 0; i < fallingStars.length; i++) {
-            fallingStars[i] = new FallingStar();
-            reuseFallingStar(fallingStars[i]);
-        }
+        fallingStars = new ArrayList<>();
+        changeFallingStarCount(fallingStars, 2);
 
         planets = new SimplePlanet[8];
         for (int i = 0; i < planets.length; i++) {
@@ -72,7 +86,7 @@ public class DrawPanel extends JPanel {
                         (int) (planetsX[i] * k),
                         (int) systemCenter.getY(),
                         (int) (planetsRadiuses[i] * k),
-                        normalPlanetColors[i],
+                        normalPlanetsPalette[i],
                         systemCenter);
             } else {
                 planets[i] = new BeltedPlanet(
@@ -80,7 +94,7 @@ public class DrawPanel extends JPanel {
                         (int) systemCenter.getY(),
                         (int) (planetsRadiuses[i] * k),
                         (int) (beltRadiuses[i] * k),
-                        normalPlanetColors[i],
+                        normalPlanetsPalette[i],
                         systemCenter);
             }
         }
@@ -89,12 +103,12 @@ public class DrawPanel extends JPanel {
                 (int) systemCenter.getX(),
                 (int) systemCenter.getY(),
                 (int) (400 * k),
-                Color.orange,
-                Color.orange);
+                normalSunMainColor,
+                noramalSunLightColor);
     }
 
-    private void generateStars(int starsCount) {
-        stars = new SmallStar[starsCount];
+    private SmallStar[] generateStars(int count) {
+        SmallStar[] stars = new SmallStar[count];
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new SmallStar(
                     random.nextInt(width),
@@ -102,6 +116,8 @@ public class DrawPanel extends JPanel {
                     random.nextInt((int) (1 * k), (int) (3 * k)),
                     starColors[random.nextInt(starColors.length)]);
         }
+
+        return stars;
     }
 
     private void reuseComet(Comet comet) {
@@ -150,37 +166,99 @@ public class DrawPanel extends JPanel {
     }
 
     public void toggleInvasion() {
-        sun.setColors(Color.black, Color.red);
+        if (isInvasion) {
+            isInvasion = false;
+            changeFallingStarCount(fallingStars, 2);
+            changeCometsCount(cometsBack, 2);
+            changeCometsCount(cometsFore, 1);
+            recolorCosmicBodies(
+                    normalPlanetsPalette,
+                    normalSunMainColor,
+                    noramalSunLightColor);
+        } else {
+            isInvasion = true;
+            changeFallingStarCount(fallingStars, 5000);
+            changeCometsCount(cometsBack, 10);
+            changeCometsCount(cometsFore, 5);
+            recolorCosmicBodies(
+                    invasionPlanetsPalette,
+                    invasionSunMainColor,
+                    invasionSunLightColor);
+        }
         repaint();
     }
 
     public void motion() {
-        for (int i = 0; i < cometsBack.length; i++) {
-            if (isCometOnScreen(cometsBack[i])) {
-                reuseComet(cometsBack[i]);
+        for (int i = 0; i < cometsBack.size(); i++) {
+            if (isCometOnScreen(cometsBack.get(i))) {
+                reuseComet(cometsBack.get(i));
             }
-            cometsBack[i].translate(-(i + 2), i + 2);
+            cometsBack.get(i).translate(-(i + 2), i + 2);
         }
 
-        for (int i = 0; i < cometsFore.length; i++) {
-            if (isCometOnScreen(cometsFore[i])) {
-                reuseComet(cometsFore[i]);
+        for (int i = 0; i < cometsFore.size(); i++) {
+            if (isCometOnScreen(cometsFore.get(i))) {
+                reuseComet(cometsFore.get(i));
             }
-            cometsFore[i].translate(-(i + 2), i + 2);
+            cometsFore.get(i).translate(-(i + 2), i + 2);
         }
 
-        for (int i = 0; i < fallingStars.length; i++) {
-            if (fallingStars[i].getLeftTravelDistance() < 0) {
-                 reuseFallingStar(fallingStars[i]);
+        for (int i = 0; i < fallingStars.size(); i++) {
+            if (fallingStars.get(i).getLeftTravelDistance() < 0) {
+                 reuseFallingStar(fallingStars.get(i));
             }
 
-            fallingStars[i].translate(- ((i + 1) * 50), (i + 1) * 50);
+            fallingStars.get(i).translate(- ((i + 1) * 100), (i + 1) * 100);
         }
         repaint();
     }
 
+    private void changeCometsCount(ArrayList<Comet> comets, int newCount) {
+        while (comets.size() > newCount) {
+            comets.remove(comets.size() - 1);
+        }
+        while (comets.size() < newCount) {
+            comets.add(generateComet());
+        }
+        comets = new ArrayList<>();
+        for (int i = 0; i < newCount; i++){
+            comets.add(generateComet());
+        }
+    }
+
+    private Comet generateComet() {
+        Comet comet = new Comet();
+        reuseComet(comet);
+
+        return comet;
+    }
+
+    private void changeFallingStarCount(@NotNull ArrayList<FallingStar> fallingStars, int newCount) {
+        while (fallingStars.size() > newCount) {
+            fallingStars.remove(fallingStars.size() - 1);
+        }
+        while (fallingStars.size() < newCount) {
+            fallingStars.add(generateFallingStar());
+        }
+    }
+
+    private FallingStar generateFallingStar() {
+        FallingStar fallingStar = new FallingStar();
+        reuseFallingStar(fallingStar);
+        return fallingStar;
+    }
+
+
     private boolean isCometOnScreen(Comet comet) {
         return comet.getX() < - (comet.getTailLength() + comet.getHeadRadius() * 2) ||
                 comet.getY() > height + comet.getTailLength() + comet.getHeadRadius() * 2;
+    }
+
+    private void recolorCosmicBodies(Color[] planetsPalette, Color bigStarMainColor, Color bigStarLightColor) {
+        for (int i = 0; i < planets.length; i++) {
+            planets[i].setColor(planetsPalette[i]);
+        }
+
+        sun.setColors(bigStarMainColor, bigStarLightColor);
     }
 }

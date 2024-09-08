@@ -18,6 +18,10 @@ public class SimplePlanet extends PaintableObject{
         return radius;
     }
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     @Override
     void draw(Graphics2D g2d) {
         if (systemCenter != null) {
