@@ -1,4 +1,6 @@
-package ru.vsu.cs.course2.a1pha;
+package ru.vsu.cs.course2.a1pha.CosmicBodies;
+
+import ru.vsu.cs.course2.a1pha.PaintableObject;
 
 import java.awt.*;
 
@@ -39,7 +41,7 @@ public class FallingStar extends PaintableObject {
     }
 
     @Override
-    void draw(Graphics2D g2d) {
+    public void draw(Graphics2D g2d) {
         g2d.setColor(color);
         g2d.rotate(-0.785398, getX(), getY());
         g2d.fillRoundRect(getX() - (length / 2), getY() - (height / 2), length, height, 5, 5);

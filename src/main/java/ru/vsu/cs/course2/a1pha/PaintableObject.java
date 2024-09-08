@@ -39,5 +39,5 @@ public abstract class PaintableObject {
         y += dy;
     }
 
-    abstract void draw(Graphics2D g2d);
+    public abstract void draw(Graphics2D g2d);
 }

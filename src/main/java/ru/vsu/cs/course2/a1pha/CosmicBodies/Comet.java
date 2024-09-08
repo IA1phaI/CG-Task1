@@ -1,8 +1,10 @@
-package ru.vsu.cs.course2.a1pha;
+package ru.vsu.cs.course2.a1pha.CosmicBodies;
+
+import ru.vsu.cs.course2.a1pha.PaintableObject;
 
 import java.awt.*;
 
-public class Comet extends PaintableObject{
+public class Comet extends PaintableObject {
     private int headRadius;
     private int tailLength;
     private Color color;
@@ -36,7 +38,7 @@ public class Comet extends PaintableObject{
     }
 
     @Override
-    void draw(Graphics2D g2d) {
+    public void draw(Graphics2D g2d) {
         g2d.rotate(-0.785398, getX(), getY());
         g2d.setColor(color);
         g2d.setPaint(new RadialGradientPaint(

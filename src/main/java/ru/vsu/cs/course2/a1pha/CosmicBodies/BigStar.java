@@ -1,4 +1,6 @@
-package ru.vsu.cs.course2.a1pha;
+package ru.vsu.cs.course2.a1pha.CosmicBodies;
+
+import ru.vsu.cs.course2.a1pha.PaintableObject;
 
 import java.awt.*;
 
