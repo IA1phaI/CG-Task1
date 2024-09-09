@@ -150,7 +150,7 @@ public class DrawPanel extends JPanel {
         manager.addKeyEventDispatcher(new KeyEventDispatcher() {
             @Override
             public boolean dispatchKeyEvent(KeyEvent e) {
-                System.out.println(e.getKeyCode());
+//                System.out.println(e.getKeyCode());
                 if (e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() == 32) {
                     toggleInvasion();
                 }
