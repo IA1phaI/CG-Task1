@@ -43,9 +43,9 @@ public class FallingStar extends TickMovingObject {
     @Override
     public void draw(Graphics2D g2d) {
         g2d.setColor(color);
-        g2d.rotate(-Math.toRadians(getMovingAngleDeg()), getX(), getY());
+        g2d.rotate(getMovingAngle(), getX(), getY());
         g2d.fillRoundRect(getX() - (length / 2), getY() - (height / 2), length, height, 5, 5);
-        g2d.rotate(Math.toRadians(getMovingAngleDeg()), getX(), getY());
+        g2d.rotate(-getMovingAngle(), getX(), getY());
     }
     
     @Override

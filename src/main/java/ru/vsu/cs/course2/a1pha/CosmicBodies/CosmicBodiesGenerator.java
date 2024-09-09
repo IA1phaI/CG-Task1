@@ -37,7 +37,7 @@ public class CosmicBodiesGenerator {
         comet.setY((int) (-settings.cometMaxHeadRadius * scalingFactor));
         comet.setHeadRadius((int) (random.nextInt(settings.cometMinHeadRadius, settings.cometMaxHeadRadius) * scalingFactor));
         comet.setSpeed((int) (random.nextInt(settings.cometMinSpeed, settings.cometMaxSpeed) * scalingFactor));
-        comet.setMovingAngleDeg(settings.fallingAngle);
+        comet.setMovingAngle(Math.toRadians(settings.fallingAngle));
         comet.setColor(settings.starColors[random.nextInt(3)]);
     }
 
@@ -64,7 +64,7 @@ public class CosmicBodiesGenerator {
         fallingStar.setLength((int) (random.nextInt(settings.fallingStarMinLength,settings.fallingStarMaxLength) * scalingFactor));
         fallingStar.setHeight((int) (random.nextInt(settings.fallingStarMinHeight,settings.fallingStarMaxHeight) * scalingFactor));
         fallingStar.setColor(Color.white);
-        fallingStar.setMovingAngleDeg(settings.fallingAngle);
+        fallingStar.setMovingAngle(Math.toRadians(settings.fallingAngle));
         fallingStar.setSpeed((int) (random.nextInt(settings.fallingStarMinSpeed, settings.fallingStarMaxSpeed) * scalingFactor));
         fallingStar.setLeftTravelDistance((int) (random.nextInt(settings.fallingStarMinTravelDistance, settings.fallingStarMaxTravelDistance) * scalingFactor));
     }

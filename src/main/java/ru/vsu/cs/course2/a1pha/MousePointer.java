@@ -15,6 +15,7 @@ public class MousePointer extends PaintableObject {
     private int nozzleInsideWidth;
     private int nozzleHeight;
     private int nozzleOutsideWidth;
+    private int nozzleEdgeRadius;
     private int illuminatorDiameter;
 
     public MousePointer(double scalingFactor, int positionsBufferSize) {
@@ -29,6 +30,7 @@ public class MousePointer extends PaintableObject {
         nozzleInsideWidth = (int) (2 * scalingFactor);
         nozzleHeight = (int) (30 * scalingFactor);
         nozzleOutsideWidth = (int) (5 * scalingFactor);
+        nozzleEdgeRadius = (int) (2 * scalingFactor);
         illuminatorDiameter = (int) (bodyWidth * 0.8);
     }
 
@@ -82,7 +84,7 @@ public class MousePointer extends PaintableObject {
                 getY() - (nozzleInsideWidth >> 1),
                 nozzleHeight,
                 nozzleInsideWidth,
-                2, 2);
+                nozzleEdgeRadius, nozzleEdgeRadius);
         g2d.fillOval(
                 getX() - noseHeight - (bodyHeight >> 2) - (illuminatorDiameter >> 1),
                 getY() - (illuminatorDiameter >> 1),
@@ -91,15 +93,14 @@ public class MousePointer extends PaintableObject {
         g2d.rotate(-angle, getX(), getY());
     }
 
-    private static Shape mirrorShapeVertical(Shape shape, int y)
-    {
+    private static Shape mirrorShapeVertical(Shape shape, int y) {
         AffineTransform at = new AffineTransform();
         at.translate(0, y);
         at.scale(1, -1);
         at.translate(0, -y);
         return at.createTransformedShape(shape);
     }
-    private double getAngle() {
+    public double getAngle() {
         Point pastPosition = positionsBuffer.peek();
         assert pastPosition != null;
         int dx = getX() - pastPosition.x();
@@ -117,5 +118,15 @@ public class MousePointer extends PaintableObject {
             angle += Math.toRadians(180);
         }
         return angle;
+    }
+
+    public Projectile createProjectile() {
+        return new Projectile(
+                getX(),
+                getY(),
+                (int) (20 * scalingFactor),
+                (int) (20 * scalingFactor),
+                (int) (3 * scalingFactor),
+                getAngle());
     }
 }

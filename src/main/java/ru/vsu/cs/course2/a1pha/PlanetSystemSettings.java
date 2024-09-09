@@ -72,7 +72,7 @@ public class PlanetSystemSettings {
     public final String invasionTextFontName = "SansSerif";
     public final int invasionTextFontStyle = Font.BOLD;
     public final int invasionTextFontSize = 100;
-    public final int invasionTextBlinkTime = 20;
+    public final int invasionTextBlinkTime = 10;
 
-    public final int fallingAngle = 45;
+    public final int fallingAngle = 135;
 }

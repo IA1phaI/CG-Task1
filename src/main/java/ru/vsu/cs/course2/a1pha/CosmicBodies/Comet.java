@@ -41,7 +41,7 @@ public class Comet extends TickMovingObject {
 
     @Override
     public void draw(Graphics2D g2d) {
-        g2d.rotate(-Math.toRadians(getMovingAngleDeg()), getX(), getY());
+        g2d.rotate(getMovingAngle(), getX(), getY());
         g2d.setColor(color);
         g2d.setPaint(new RadialGradientPaint(
                 getX(),
@@ -59,9 +59,9 @@ public class Comet extends TickMovingObject {
         ));
         g2d.fillPolygon(
                 new int[]{
-                        getX() - headRadius,
-                        getX() + headRadius + tailLength,
-                        getX() + headRadius + tailLength,
+                        getX() + headRadius,
+                        getX() - headRadius - tailLength,
+                        getX() - headRadius - tailLength,
                 },
                 new int[]{
                         getY(),
@@ -81,9 +81,9 @@ public class Comet extends TickMovingObject {
         ));
         g2d.fillPolygon(
                 new int[]{
-                        getX() - headRadius,
-                        getX() + headRadius + tailLength,
-                        getX() + headRadius + tailLength,
+                        getX() + headRadius,
+                        getX() - headRadius - tailLength,
+                        getX() - headRadius - tailLength,
                 },
                 new int[]{
                         getY(),
@@ -91,7 +91,7 @@ public class Comet extends TickMovingObject {
                         getY() - headRadius * 5},
                 3
         );
-        g2d.rotate(Math.toRadians(getMovingAngleDeg()), getX(), getY());
+        g2d.rotate(-getMovingAngle(), getX(), getY());
         g2d.setColor(color);
         g2d.fillOval(getX() - headRadius, getY() - headRadius, headRadius << 1, headRadius << 1);
     }

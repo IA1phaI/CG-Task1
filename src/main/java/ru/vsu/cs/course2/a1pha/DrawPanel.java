@@ -27,7 +27,10 @@ public class DrawPanel extends JPanel {
     private final ArrayList<Comet> invasionCometsFore;
     private final ArrayList<FallingStar> fallingStars;
     private final ArrayList<FallingStar> invasionFallingStars;
-    private static Point systemCenterPoint;
+
+    private final ArrayList<Projectile> projectiles;
+
+    private Point systemCenterPoint;
 
     private boolean isInvasion = false;
 
@@ -41,12 +44,14 @@ public class DrawPanel extends JPanel {
 
     private int warningTimeCounter = 0;
 
+    private boolean fire = false;
+
     public DrawPanel(int frameWidth, int frameHeight) {
         scalingFactor = ((double) frameWidth) / 800;
         this.width = frameWidth - 36;
         this.height = frameHeight - 66;
 
-        mousePointer = new MousePointer(scalingFactor, 25);
+        mousePointer = new MousePointer(scalingFactor, 15);
 
         generator = new CosmicBodiesGenerator(height, width, scalingFactor);
 
@@ -54,6 +59,8 @@ public class DrawPanel extends JPanel {
                 settings.invasionTextFontName,
                 settings.invasionTextFontStyle,
                 (int) (settings.invasionTextFontSize * scalingFactor));
+
+        projectiles = new ArrayList<>();
 
         stars = generator.generateSmallStars(100);
 
@@ -103,7 +110,7 @@ public class DrawPanel extends JPanel {
         this.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent mouseEvent) {
-
+                mousePointer.move(mouseEvent.getX(), mouseEvent.getY());
             }
 
             @Override
@@ -115,17 +122,17 @@ public class DrawPanel extends JPanel {
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(e.getPoint() + " " + height + " " + width);
+//                projectiles.add(mousePointer.createProjectile());
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-
+                fire = true;
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-
+                fire = false;
             }
 
             @Override
@@ -143,16 +150,20 @@ public class DrawPanel extends JPanel {
         manager.addKeyEventDispatcher(new KeyEventDispatcher() {
             @Override
             public boolean dispatchKeyEvent(KeyEvent e) {
-//                System.out.println(e.getKeyCode());
+                System.out.println(e.getKeyCode());
                 if (e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() == 32) {
                     toggleInvasion();
+                }
+
+                if (e.getKeyCode() == 17) {
+                    fire = e.getID() == KeyEvent.KEY_PRESSED;
                 }
                 return false;
             }
         });
     }
 
-    private <T extends PaintableObject> void drawObjectArrays(@NotNull AbstractList<T> objects, Graphics2D g2d) {
+    private <T extends PaintableObject> void drawObjectArray(@NotNull AbstractList<T> objects, Graphics2D g2d) {
         for (PaintableObject object : objects) {
             object.draw(g2d);
         }
@@ -161,28 +172,32 @@ public class DrawPanel extends JPanel {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
+        if (fire) {
+            projectiles.add(mousePointer.createProjectile());
+        }
         Graphics2D g2d = (Graphics2D) g;
 
-        drawObjectArrays(stars, g2d);
-        drawObjectArrays(fallingStars, g2d);
-        drawObjectArrays(cometsBack, g2d);
+        drawObjectArray(stars, g2d);
+        drawObjectArray(fallingStars, g2d);
+        drawObjectArray(cometsBack, g2d);
 
         if (isInvasion) {
-            drawObjectArrays(invasionFallingStars, g2d);
-            drawObjectArrays(invasionCometsBack, g2d);
+            drawObjectArray(invasionFallingStars, g2d);
+            drawObjectArray(invasionCometsBack, g2d);
         }
 
-        drawObjectArrays(planets, g2d);
+        drawObjectArray(planets, g2d);
 
         sun.draw(g2d);
 
-        drawObjectArrays(cometsFore, g2d);
+        drawObjectArray(cometsFore, g2d);
 
         if (isInvasion) {
-            drawObjectArrays(invasionCometsFore, g2d);
+            drawObjectArray(invasionCometsFore, g2d);
         }
 
         mousePointer.draw(g2d);
+        drawObjectArray(projectiles, g2d);
 
         if (isInvasion) {
             drawWarning(g2d);
@@ -223,6 +238,19 @@ public class DrawPanel extends JPanel {
         }
     }
 
+    private void animateProjectiles() {
+        for (int i = 0; i < projectiles.size(); i++) {
+            if (projectiles.get(i).getX() < 0 ||
+                    projectiles.get(i).getX() > width ||
+                    projectiles.get(i).getY() < 0 ||
+                    projectiles.get(i).getY() > height) {
+                projectiles.remove(i);
+            } else {
+                projectiles.get(i).tickMove();
+            }
+        }
+    }
+
     public void motion() {
         animateComets(cometsBack);
         animateComets(cometsFore);
@@ -230,6 +258,7 @@ public class DrawPanel extends JPanel {
         animateComets(invasionCometsFore);
         animateFallingStars(fallingStars);
         animateFallingStars(invasionFallingStars);
+        animateProjectiles();
 
         repaint();
     }
