@@ -33,16 +33,27 @@ public class DrawPanel extends JPanel {
 
     private final Random random = new Random();
 
-    private final MousePointer mousePointer = new MousePointer(5);
+    private MousePointer mousePointer;
 
     private CosmicBodiesGenerator generator;
+
+    public final Font invasionTextFont;
+
+    private int warningTimeCounter = 0;
 
     public DrawPanel(int frameWidth, int frameHeight) {
         scalingFactor = ((double) frameWidth) / 800;
         this.width = frameWidth - 36;
         this.height = frameHeight - 66;
 
+        mousePointer = new MousePointer(scalingFactor, 25);
+
         generator = new CosmicBodiesGenerator(height, width, scalingFactor);
+
+        invasionTextFont = new Font(
+                settings.invasionTextFontName,
+                settings.invasionTextFontStyle,
+                (int) (settings.invasionTextFontSize * scalingFactor));
 
         stars = generator.generateSmallStars(100);
 
@@ -169,14 +180,28 @@ public class DrawPanel extends JPanel {
 
         if (isInvasion) {
             drawObjectArrays(invasionCometsFore, g2d);
-            g2d.setColor(settings.invasionTextColor);
-            g2d.setFont(settings.invasionTextFont);
-            g2d.drawString(settings.invasionText,
-                    width / 9 * 4,
-                    height / 2);
         }
 
         mousePointer.draw(g2d);
+
+        if (isInvasion) {
+            drawWarning(g2d);
+        }
+    }
+
+    private void drawWarning(Graphics2D g2d) {
+        if (warningTimeCounter < settings.invasionTextBlinkTime) {
+            g2d.setColor(settings.invasionTextColor);
+            g2d.setFont(invasionTextFont);
+            g2d.drawString(
+                    settings.invasionText,
+                    width / 11 * 2,
+                    height / 5 * 3);
+        } else if (warningTimeCounter > settings.invasionTextBlinkTime << 1) {
+            warningTimeCounter = 0;
+        }
+
+        warningTimeCounter++;
     }
 
     private void animateComets(ArrayList<Comet> comets) {

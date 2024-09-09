@@ -34,9 +34,9 @@ public abstract class PaintableObject {
         setY(y);
     }
 
-    public void translate(int dx, int dy) {
-        x += dx;
-        y += dy;
+    public void translate(int deltaX, int deltaY) {
+        x += deltaX;
+        y += deltaY;
     }
 
     public abstract void draw(Graphics2D g2d);

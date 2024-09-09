@@ -69,7 +69,10 @@ public class PlanetSystemSettings {
 
     public final Color invasionTextColor = Color.red;
     public final String invasionText = "INVASION";
-    public final Font invasionTextFont = new Font( "SansSerif", Font.BOLD, 50 );
+    public final String invasionTextFontName = "SansSerif";
+    public final int invasionTextFontStyle = Font.BOLD;
+    public final int invasionTextFontSize = 100;
+    public final int invasionTextBlinkTime = 20;
 
     public final int fallingAngle = 45;
 }

@@ -49,9 +49,9 @@ public class FallingStar extends TickMovingObject {
     }
     
     @Override
-    public void translate(int dx, int dy) {
-        super.translate(dx, dy);
-        leftTravelDistance -= (int) Math.sqrt(dx * dx + dy * dy);
+    public void translate(int deltaX, int deltaY) {
+        super.translate(deltaX, deltaY);
+        leftTravelDistance -= (int) Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     }
 
     @Override
