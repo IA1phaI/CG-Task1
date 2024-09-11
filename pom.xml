@@ -27,6 +27,12 @@
           <version>RELEASE</version>
           <scope>compile</scope>
       </dependency>
+      <!-- https://mvnrepository.com/artifact/com.intellij/forms_rt -->
+      <dependency>
+          <groupId>com.intellij</groupId>
+          <artifactId>forms_rt</artifactId>
+          <version>7.0.3</version>
+      </dependency>
   </dependencies>
     <build>
         <plugins>
@@ -34,8 +40,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>16</source>
-                    <target>16</target>
+                    <source>21</source>
+                    <target>21</target>
                 </configuration>
             </plugin>
         </plugins>
