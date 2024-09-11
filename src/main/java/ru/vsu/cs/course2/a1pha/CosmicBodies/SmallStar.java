@@ -5,8 +5,8 @@ import ru.vsu.cs.course2.a1pha.PaintableObject;
 import java.awt.*;
 
 public class SmallStar extends PaintableObject {
-    private int radius;
-    private Color color;
+    private final int radius;
+    private final Color color;
 
     public SmallStar(int x, int y, int radius, Color color) {
         super(x, y);

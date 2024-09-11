@@ -10,10 +10,8 @@ public class FallingStar extends TickMovingObject {
     private int leftTravelDistance;
     private Color color;
 
-    public FallingStar(){}
-
-    public FallingStar(int x, int y, int length, int height, int speed, int distanceToTravel, int angdeg, Color color) {
-        super(x, y, speed, angdeg);
+    public FallingStar(int x, int y, int length, int height, int speed, int distanceToTravel, double angle, Color color) {
+        super(x, y, speed, angle);
         this.length = length;
         this.height = height;
         this.color = color;

@@ -48,6 +48,7 @@ public class PlanetSystemSettings {
     public final Color invasionSunMainColor = Color.black;
     public final Color invasionSunLightColor = Color.red;
 
+    public final Color fallingStarColor = Color.white;
     public final int fallingStarMinLength = 10;
     public final int fallingStarMaxLength = 100;
     public final int fallingStarMinHeight = 1;

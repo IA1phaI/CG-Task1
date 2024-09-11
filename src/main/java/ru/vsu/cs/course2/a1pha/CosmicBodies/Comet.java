@@ -11,12 +11,8 @@ public class Comet extends TickMovingObject {
 
     private Color color;
 
-    public Comet(){
-        super();
-    }
-
-    public Comet(int x, int y, int headRadius, int speed, int angdeg, Color color) {
-        super(x, y, speed, angdeg);
+    public Comet(int x, int y, int headRadius, int speed, double angle, Color color) {
+        super(x, y, speed, angle);
         this.headRadius = headRadius;
         this.tailLength = headRadius * 40;
         this.color = color;

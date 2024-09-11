@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class CosmicBodiesGenerator {
-    private int height, width;
-    private double scalingFactor;
+    private final int height, width;
+    private final double scalingFactor;
     private final Random random = new Random();
     PlanetSystemSettings settings;
 
@@ -42,10 +42,14 @@ public class CosmicBodiesGenerator {
     }
 
     public Comet generateComet() {
-        Comet comet = new Comet();
-        reuseComet(comet);
-
-        return comet;
+        return new Comet(
+                random.nextInt(width * 3 / 2),
+                (int) (-settings.cometMaxHeadRadius * scalingFactor),
+                (int) (random.nextInt(settings.cometMinHeadRadius, settings.cometMaxHeadRadius) * scalingFactor),
+                (int) (random.nextInt(settings.cometMinSpeed, settings.cometMaxSpeed) * scalingFactor),
+                Math.toRadians(settings.fallingAngle),
+                settings.starColors[random.nextInt(3)]
+        );
     }
 
     public ArrayList<Comet> generateComets(int newCount) {
@@ -63,17 +67,23 @@ public class CosmicBodiesGenerator {
         fallingStar.setY(random.nextInt((int) (-100 * scalingFactor), height));
         fallingStar.setLength((int) (random.nextInt(settings.fallingStarMinLength,settings.fallingStarMaxLength) * scalingFactor));
         fallingStar.setHeight((int) (random.nextInt(settings.fallingStarMinHeight,settings.fallingStarMaxHeight) * scalingFactor));
-        fallingStar.setColor(Color.white);
-        fallingStar.setMovingAngle(Math.toRadians(settings.fallingAngle));
         fallingStar.setSpeed((int) (random.nextInt(settings.fallingStarMinSpeed, settings.fallingStarMaxSpeed) * scalingFactor));
         fallingStar.setLeftTravelDistance((int) (random.nextInt(settings.fallingStarMinTravelDistance, settings.fallingStarMaxTravelDistance) * scalingFactor));
+        fallingStar.setMovingAngle(Math.toRadians(settings.fallingAngle));
+        fallingStar.setColor(Color.white);
     }
 
     public FallingStar generateFallingStar() {
-        FallingStar fallingStar = new FallingStar();
-        reuseFallingStar(fallingStar);
-
-        return fallingStar;
+        return new FallingStar(
+                random.nextInt(0, (int) (width + 300 * scalingFactor)),
+                random.nextInt((int) (-100 * scalingFactor), height),
+                (int) (random.nextInt(settings.fallingStarMinLength,settings.fallingStarMaxLength) * scalingFactor),
+                (int) (random.nextInt(settings.fallingStarMinHeight,settings.fallingStarMaxHeight) * scalingFactor),
+                (int) (random.nextInt(settings.fallingStarMinSpeed, settings.fallingStarMaxSpeed) * scalingFactor),
+                (int) (random.nextInt(settings.fallingStarMinTravelDistance, settings.fallingStarMaxTravelDistance) * scalingFactor),
+                Math.toRadians(settings.fallingAngle),
+                settings.fallingStarColor
+        );
     }
 
     public ArrayList<FallingStar> generateFallingStars(int newCount) {

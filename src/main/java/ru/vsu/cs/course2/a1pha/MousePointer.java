@@ -5,24 +5,25 @@ import java.awt.geom.AffineTransform;
 import java.util.LinkedList;
 
 public class MousePointer extends PaintableObject {
-    private double scalingFactor;
+    private final double scalingFactor;
     private final int positionsBufferSize;
     LinkedList<Point> positionsBuffer;
 
-    private int noseHeight;
-    private int bodyWidth;
-    private int bodyHeight;
-    private int nozzleInsideWidth;
-    private int nozzleHeight;
-    private int nozzleOutsideWidth;
-    private int nozzleEdgeRadius;
-    private int illuminatorDiameter;
+    private final int noseHeight;
+    private final int bodyWidth;
+    private final int bodyHeight;
+    private final int nozzleInsideWidth;
+    private final int nozzleHeight;
+    private final int nozzleOutsideWidth;
+    private final int nozzleEdgeRadius;
+    private final int portholeDiameter;
 
-    public MousePointer(double scalingFactor, int positionsBufferSize) {
+    public MousePointer(int x, int y, double scalingFactor, int positionsBufferSize) {
+        super(x, y);
         this.scalingFactor = scalingFactor;
         this.positionsBufferSize = positionsBufferSize;
         positionsBuffer = new LinkedList<>();
-        move(-100, -100);
+        bufferPosition(x, y);
 
         noseHeight = (int) (15 * scalingFactor);
         bodyWidth = (int) (16 * scalingFactor);
@@ -31,7 +32,7 @@ public class MousePointer extends PaintableObject {
         nozzleHeight = (int) (30 * scalingFactor);
         nozzleOutsideWidth = (int) (5 * scalingFactor);
         nozzleEdgeRadius = (int) (2 * scalingFactor);
-        illuminatorDiameter = (int) (bodyWidth * 0.8);
+        portholeDiameter = (int) (bodyWidth * 0.8);
     }
 
     @Override
@@ -42,8 +43,12 @@ public class MousePointer extends PaintableObject {
             if (positionsBuffer.size() == positionsBufferSize) {
                 positionsBuffer.poll();
             }
-            positionsBuffer.addLast(new Point(x, y));
+            bufferPosition(x, y);
         }
+    }
+
+    private void bufferPosition(int x, int y) {
+        positionsBuffer.addLast(new Point(x, y));
     }
 
     @Override
@@ -86,10 +91,10 @@ public class MousePointer extends PaintableObject {
                 nozzleInsideWidth,
                 nozzleEdgeRadius, nozzleEdgeRadius);
         g2d.fillOval(
-                getX() - noseHeight - (bodyHeight >> 2) - (illuminatorDiameter >> 1),
-                getY() - (illuminatorDiameter >> 1),
-                illuminatorDiameter,
-                illuminatorDiameter);
+                getX() - noseHeight - (bodyHeight >> 2) - (portholeDiameter >> 1),
+                getY() - (portholeDiameter >> 1),
+                portholeDiameter,
+                portholeDiameter);
         g2d.rotate(-angle, getX(), getY());
     }
 

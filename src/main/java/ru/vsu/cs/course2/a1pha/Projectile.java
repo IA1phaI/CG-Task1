@@ -3,8 +3,8 @@ package ru.vsu.cs.course2.a1pha;
 import java.awt.*;
 
 public class Projectile extends TickMovingObject {
-    private int width;
-    private int length;
+    private final int width;
+    private final int length;
 
     public Projectile(int x, int y, int speed, int length, int width, double angle) {
         super(x, y, speed, angle);

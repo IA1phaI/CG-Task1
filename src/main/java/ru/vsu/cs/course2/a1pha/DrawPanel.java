@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class DrawPanel extends JPanel {
-    private int width, height;
-    private double scalingFactor;
+    private final int width, height;
+    private final double scalingFactor;
 
     private final PlanetSystemSettings settings = new PlanetSystemSettings();
 
@@ -30,15 +30,15 @@ public class DrawPanel extends JPanel {
 
     private final ArrayList<Projectile> projectiles;
 
-    private Point systemCenterPoint;
+    private final Point systemCenterPoint;
 
     private boolean isInvasion = false;
 
     private final Random random = new Random();
 
-    private MousePointer mousePointer;
+    private final MousePointer mousePointer;
 
-    private CosmicBodiesGenerator generator;
+    private final CosmicBodiesGenerator generator;
 
     public final Font invasionTextFont;
 
@@ -51,7 +51,7 @@ public class DrawPanel extends JPanel {
         this.width = frameWidth - 36;
         this.height = frameHeight - 66;
 
-        mousePointer = new MousePointer(scalingFactor, 15);
+        mousePointer = new MousePointer(-100, -100, scalingFactor, 15);
 
         generator = new CosmicBodiesGenerator(height, width, scalingFactor);
 

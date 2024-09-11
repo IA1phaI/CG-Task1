@@ -6,9 +6,9 @@ import ru.vsu.cs.course2.a1pha.Point;
 import java.awt.*;
 
 public class SimplePlanet extends PaintableObject {
-    private int radius;
+    private final int radius;
     private Color color;
-    private Point systemCenterPoint;
+    private final Point systemCenterPoint;
 
     public SimplePlanet(int x, int y, int radius, Color color, Point systemCenterPoint) {
         super(x, y);

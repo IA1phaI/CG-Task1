@@ -1,10 +1,8 @@
 package ru.vsu.cs.course2.a1pha;
 
 public abstract class TickMovingObject extends PaintableObject {
-    int speed = 0;
-    double angle = 0;
-
-    public  TickMovingObject() {}
+    int speed;
+    double angle;
 
     public TickMovingObject(int x, int y, int speed, double angle) {
         super(x, y);

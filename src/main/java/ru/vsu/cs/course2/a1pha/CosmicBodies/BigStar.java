@@ -5,7 +5,7 @@ import ru.vsu.cs.course2.a1pha.PaintableObject;
 import java.awt.*;
 
 public class BigStar extends PaintableObject {
-    private int radius;
+    private final int radius;
 
     private Color mainColor;
     private Color lightColor;
@@ -19,10 +19,6 @@ public class BigStar extends PaintableObject {
 
     public int getRadius() {
         return radius;
-    }
-
-    public void setRadius(int radius) {
-        this.radius = radius;
     }
 
     public Color getMainColor() {

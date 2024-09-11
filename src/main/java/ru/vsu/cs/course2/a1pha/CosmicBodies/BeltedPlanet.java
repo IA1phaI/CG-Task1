@@ -4,7 +4,7 @@ import java.awt.*;
 import ru.vsu.cs.course2.a1pha.Point;
 
 public class BeltedPlanet extends SimplePlanet {
-    private int beltWidth;
+    private final int beltWidth;
     public BeltedPlanet(int x, int y, int radius, int beltRadius, Color color, Point systemCenter) {
         super(x, y, radius, color, systemCenter);
         this.beltWidth = beltRadius;
