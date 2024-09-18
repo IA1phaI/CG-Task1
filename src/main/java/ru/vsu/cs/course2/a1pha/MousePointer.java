@@ -1,5 +1,7 @@
 package ru.vsu.cs.course2.a1pha;
 
+import ru.vsu.cs.course2.a1pha.utils.Point;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.LinkedList;
@@ -7,7 +9,7 @@ import java.util.LinkedList;
 public class MousePointer extends PaintableObject {
     private final double scalingFactor;
     private final int positionsBufferSize;
-    LinkedList<Point> positionsBuffer;
+    LinkedList<ru.vsu.cs.course2.a1pha.utils.Point> positionsBuffer;
 
     private final int noseHeight;
     private final int bodyWidth;
@@ -48,7 +50,7 @@ public class MousePointer extends PaintableObject {
     }
 
     private void bufferPosition(int x, int y) {
-        positionsBuffer.addLast(new Point(x, y));
+        positionsBuffer.addLast(new ru.vsu.cs.course2.a1pha.utils.Point(x, y));
     }
 
     @Override

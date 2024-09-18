@@ -1,18 +1,18 @@
-package ru.vsu.cs.course2.a1pha.CosmicBodies;
+package ru.vsu.cs.course2.a1pha.cosmicObjects;
 
+import ru.vsu.cs.course2.a1pha.cosmicObjects.stars.SmallStar;
 import ru.vsu.cs.course2.a1pha.PlanetSystemSettings;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class CosmicBodiesGenerator {
+public class CosmicObjectsGenerator {
     private final int height, width;
     private final double scalingFactor;
     private final Random random = new Random();
     PlanetSystemSettings settings;
 
-    public CosmicBodiesGenerator(int height, int width, double scalingFactor) {
+    public CosmicObjectsGenerator(int height, int width, double scalingFactor) {
         this.height = height;
         this.width = width;
         this.scalingFactor = scalingFactor;
@@ -25,7 +25,11 @@ public class CosmicBodiesGenerator {
             stars.add(new SmallStar(
                     random.nextInt(width),
                     random.nextInt(height),
-                    random.nextInt((int) (settings.smallStarMinRadius * scalingFactor), (int) (settings.smallStarMaxRadius * scalingFactor)),
+
+                    random.nextInt(
+                            (int) (settings.smallStarMinRadius * scalingFactor),
+                            (int) (settings.smallStarMaxRadius * scalingFactor)),
+
                     settings.starColors[random.nextInt(settings.starColors.length)]));
         }
 
@@ -35,9 +39,16 @@ public class CosmicBodiesGenerator {
     public void reuseComet(Comet comet) {
         comet.setX(random.nextInt(width * 3 / 2));
         comet.setY((int) (-settings.cometMaxHeadRadius * scalingFactor));
-        comet.setHeadRadius((int) (random.nextInt(settings.cometMinHeadRadius, settings.cometMaxHeadRadius) * scalingFactor));
-        comet.setSpeed((int) (random.nextInt(settings.cometMinSpeed, settings.cometMaxSpeed) * scalingFactor));
+
+        comet.setHeadRadius((int) (random.nextInt(
+                settings.cometMinHeadRadius,
+                settings.cometMaxHeadRadius) * scalingFactor));
+
+        comet.setSpeed((int) (random.nextInt(
+                settings.cometMinSpeed,
+                settings.cometMaxSpeed) * scalingFactor));
         comet.setMovingAngle(Math.toRadians(settings.fallingAngle));
+
         comet.setColor(settings.starColors[random.nextInt(3)]);
     }
 
@@ -45,9 +56,16 @@ public class CosmicBodiesGenerator {
         return new Comet(
                 random.nextInt(width * 3 / 2),
                 (int) (-settings.cometMaxHeadRadius * scalingFactor),
-                (int) (random.nextInt(settings.cometMinHeadRadius, settings.cometMaxHeadRadius) * scalingFactor),
-                (int) (random.nextInt(settings.cometMinSpeed, settings.cometMaxSpeed) * scalingFactor),
+
+                (int) (random.nextInt(
+                        settings.cometMinHeadRadius,
+                        settings.cometMaxHeadRadius) * scalingFactor),
+
+                (int) (random.nextInt(settings.cometMinSpeed,
+                        settings.cometMaxSpeed) * scalingFactor),
+
                 Math.toRadians(settings.fallingAngle),
+
                 settings.starColors[random.nextInt(3)]
         );
     }
@@ -65,23 +83,51 @@ public class CosmicBodiesGenerator {
     public void reuseFallingStar(FallingStar fallingStar) {
         fallingStar.setX(random.nextInt(0, (int) (width + 300 * scalingFactor)));
         fallingStar.setY(random.nextInt((int) (-100 * scalingFactor), height));
-        fallingStar.setLength((int) (random.nextInt(settings.fallingStarMinLength,settings.fallingStarMaxLength) * scalingFactor));
-        fallingStar.setHeight((int) (random.nextInt(settings.fallingStarMinHeight,settings.fallingStarMaxHeight) * scalingFactor));
-        fallingStar.setSpeed((int) (random.nextInt(settings.fallingStarMinSpeed, settings.fallingStarMaxSpeed) * scalingFactor));
-        fallingStar.setLeftTravelDistance((int) (random.nextInt(settings.fallingStarMinTravelDistance, settings.fallingStarMaxTravelDistance) * scalingFactor));
+
+        fallingStar.setLength((int) (random.nextInt(
+                settings.fallingStarMinLength,
+                settings.fallingStarMaxLength) * scalingFactor));
+
+        fallingStar.setHeight((int) (random.nextInt(
+                settings.fallingStarMinHeight,
+                settings.fallingStarMaxHeight) * scalingFactor));
+
+        fallingStar.setSpeed((int) (random.nextInt(
+                settings.fallingStarMinSpeed,
+                settings.fallingStarMaxSpeed) * scalingFactor));
+
+        fallingStar.setLeftTravelDistance((int) (random.nextInt(
+                settings.fallingStarMinTravelDistance,
+                settings.fallingStarMaxTravelDistance) * scalingFactor));
+
         fallingStar.setMovingAngle(Math.toRadians(settings.fallingAngle));
-        fallingStar.setColor(Color.white);
+
+        fallingStar.setColor(settings.fallingStarColor);
     }
 
     public FallingStar generateFallingStar() {
         return new FallingStar(
                 random.nextInt(0, (int) (width + 300 * scalingFactor)),
                 random.nextInt((int) (-100 * scalingFactor), height),
-                (int) (random.nextInt(settings.fallingStarMinLength,settings.fallingStarMaxLength) * scalingFactor),
-                (int) (random.nextInt(settings.fallingStarMinHeight,settings.fallingStarMaxHeight) * scalingFactor),
-                (int) (random.nextInt(settings.fallingStarMinSpeed, settings.fallingStarMaxSpeed) * scalingFactor),
-                (int) (random.nextInt(settings.fallingStarMinTravelDistance, settings.fallingStarMaxTravelDistance) * scalingFactor),
+
+                (int) (random.nextInt(
+                        settings.fallingStarMinLength,
+                        settings.fallingStarMaxLength) * scalingFactor),
+
+                (int) (random.nextInt(
+                        settings.fallingStarMinHeight,
+                        settings.fallingStarMaxHeight) * scalingFactor),
+
+                (int) (random.nextInt(
+                        settings.fallingStarMinSpeed,
+                        settings.fallingStarMaxSpeed) * scalingFactor),
+
+                (int) (random.nextInt(
+                        settings.fallingStarMinTravelDistance,
+                        settings.fallingStarMaxTravelDistance) * scalingFactor),
+
                 Math.toRadians(settings.fallingAngle),
+
                 settings.fallingStarColor
         );
     }

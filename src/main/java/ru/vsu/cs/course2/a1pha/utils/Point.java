@@ -1,4 +1,4 @@
-package ru.vsu.cs.course2.a1pha;
+package ru.vsu.cs.course2.a1pha.utils;
 
 public record Point(int x, int y) {
     public double distanceTo(int x, int y) {

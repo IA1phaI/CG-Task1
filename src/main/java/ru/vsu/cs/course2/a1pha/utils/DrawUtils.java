@@ -1,9 +1,9 @@
-package ru.vsu.cs.course2.a1pha;
+package ru.vsu.cs.course2.a1pha.utils;
 
 import org.jetbrains.annotations.NotNull;
+import ru.vsu.cs.course2.a1pha.PaintableObject;
 
 import java.awt.*;
-import java.util.AbstractList;
 import java.util.Collection;
 
 public class DrawUtils {

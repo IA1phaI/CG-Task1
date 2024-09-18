@@ -1,5 +1,7 @@
 package ru.vsu.cs.course2.a1pha;
 
+import ru.vsu.cs.course2.a1pha.utils.Point;
+
 import java.awt.*;
 
 public abstract class PaintableObject {

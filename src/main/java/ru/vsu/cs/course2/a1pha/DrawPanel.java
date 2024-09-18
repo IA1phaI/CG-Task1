@@ -1,18 +1,20 @@
 package ru.vsu.cs.course2.a1pha;
 
-import org.jetbrains.annotations.NotNull;
-import ru.vsu.cs.course2.a1pha.CosmicBodies.*;
+import ru.vsu.cs.course2.a1pha.cosmicObjects.*;
+import ru.vsu.cs.course2.a1pha.cosmicObjects.planets.BeltedPlanet;
+import ru.vsu.cs.course2.a1pha.cosmicObjects.planets.SimplePlanet;
+import ru.vsu.cs.course2.a1pha.cosmicObjects.stars.BigStar;
+import ru.vsu.cs.course2.a1pha.cosmicObjects.stars.SmallStar;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
-import static ru.vsu.cs.course2.a1pha.DrawUtils.drawObjectArray;
+import static ru.vsu.cs.course2.a1pha.utils.DrawUtils.drawObjectArray;
 
 public class DrawPanel extends JPanel {
     private final int width, height;
@@ -34,7 +36,7 @@ public class DrawPanel extends JPanel {
 
     private final ArrayList<Projectile> projectiles;
 
-    private final Point systemCenterPoint;
+    private final ru.vsu.cs.course2.a1pha.utils.Point systemCenterPoint;
 
     private boolean isInvasion = false;
 
@@ -42,7 +44,7 @@ public class DrawPanel extends JPanel {
 
     private final MousePointer mousePointer;
 
-    private final CosmicBodiesGenerator generator;
+    private final CosmicObjectsGenerator generator;
 
     public final Font invasionTextFont;
 
@@ -57,7 +59,7 @@ public class DrawPanel extends JPanel {
 
         mousePointer = new MousePointer(-100, -100, scalingFactor, 15);
 
-        generator = new CosmicBodiesGenerator(height, width, scalingFactor);
+        generator = new CosmicObjectsGenerator(height, width, scalingFactor);
 
         invasionTextFont = new Font(
                 settings.invasionTextFontName,
@@ -69,7 +71,7 @@ public class DrawPanel extends JPanel {
         stars = generator.generateSmallStars(100);
 
         setBackground(settings.spaceColor);
-        systemCenterPoint = new Point((int) (-300 * scalingFactor), height / 2);
+        systemCenterPoint = new ru.vsu.cs.course2.a1pha.utils.Point((int) (-300 * scalingFactor), height / 2);
 
         cometsBack = generator.generateComets(2);
         invasionCometsBack = generator.generateComets(20);
