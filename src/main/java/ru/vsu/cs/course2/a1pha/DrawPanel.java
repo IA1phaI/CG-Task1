@@ -244,15 +244,21 @@ public class DrawPanel extends JPanel {
     }
 
     private void animateProjectiles() {
+        ArrayList<Integer> destructionIndexes = new ArrayList<>();
+
         for (int i = 0; i < projectiles.size(); i++) {
             if (projectiles.get(i).getX() < 0 ||
                     projectiles.get(i).getX() > width ||
                     projectiles.get(i).getY() < 0 ||
                     projectiles.get(i).getY() > height) {
-                projectiles.remove(i);
+                destructionIndexes.add(i);
             } else {
                 projectiles.get(i).tickMove();
             }
+        }
+
+        for (Integer i : destructionIndexes) {
+            projectiles.remove((int) i);
         }
     }
 
