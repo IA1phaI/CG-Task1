@@ -6,6 +6,10 @@ public abstract class PaintableObject {
     private int x;
     private int y;
 
+    public PaintableObject(Point point) {
+        this(point.x(), point.y());
+    }
+
     public PaintableObject(int x, int y) {
         this.x = x;
         this.y = y;

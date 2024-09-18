@@ -22,6 +22,7 @@ public class PlanetSystemSettings {
             Color.cyan.darker().darker().darker(),
             Color.blue.darker()
     };
+    Color orbitColor = Color.gray;
 
     public final Color[] starColors = new Color[]{
             new Color(162, 228, 255),

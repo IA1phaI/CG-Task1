@@ -11,6 +11,8 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static ru.vsu.cs.course2.a1pha.DrawUtils.drawObjectArray;
+
 public class DrawPanel extends JPanel {
     private final int width, height;
     private final double scalingFactor;
@@ -19,6 +21,7 @@ public class DrawPanel extends JPanel {
 
     private final ArrayList<SmallStar> stars;
     private final ArrayList<SimplePlanet> planets;
+    private final ArrayList<Orbit> orbits;
     private final BigStar sun;
 
     private final ArrayList<Comet> cometsBack;
@@ -77,23 +80,28 @@ public class DrawPanel extends JPanel {
         invasionFallingStars = generator.generateFallingStars(200);
 
         planets = new ArrayList<>(settings.planetsX.length);
+        orbits = new ArrayList<>(settings.planetsX.length);
         for (int i = 0; i < settings.planetsX.length; i++) {
             if (settings.beltRadiuses[i] == 0) {
                 planets.add(new SimplePlanet(
                         (int) (settings.planetsX[i] * scalingFactor),
                         systemCenterPoint.y(),
                         (int) (settings.planetsRadiuses[i] * scalingFactor),
-                        settings.normalPlanetsPalette[i],
-                        systemCenterPoint));
+                        settings.normalPlanetsPalette[i]
+                        ));
             } else {
                 planets.add(new BeltedPlanet(
                         (int) (settings.planetsX[i] * scalingFactor),
                         systemCenterPoint.y(),
                         (int) (settings.planetsRadiuses[i] * scalingFactor),
                         (int) (settings.beltRadiuses[i] * scalingFactor),
-                        settings.normalPlanetsPalette[i],
-                        systemCenterPoint));
+                        settings.normalPlanetsPalette[i]
+                        ));
             }
+            orbits.add(new Orbit(
+                    systemCenterPoint,
+                    (int) (settings.planetsX[i] * scalingFactor - systemCenterPoint.x()),
+                    settings.orbitColor));
         }
 
         sun = new BigStar(
@@ -163,11 +171,7 @@ public class DrawPanel extends JPanel {
         });
     }
 
-    private <T extends PaintableObject> void drawObjectArray(@NotNull AbstractList<T> objects, Graphics2D g2d) {
-        for (PaintableObject object : objects) {
-            object.draw(g2d);
-        }
-    }
+
 
     @Override
     public void paint(Graphics g) {
@@ -186,6 +190,7 @@ public class DrawPanel extends JPanel {
             drawObjectArray(invasionCometsBack, g2d);
         }
 
+        drawObjectArray(orbits, g2d);
         drawObjectArray(planets, g2d);
 
         sun.draw(g2d);
@@ -220,21 +225,21 @@ public class DrawPanel extends JPanel {
     }
 
     private void animateComets(ArrayList<Comet> comets) {
-        for (int i = 0; i < comets.size(); i++) {
-            if (isCometOnScreen(comets.get(i))) {
-                generator.reuseComet(comets.get(i));
+        for (Comet comet : comets) {
+            if (isCometOnScreen(comet)) {
+                generator.reuseComet(comet);
             }
-            comets.get(i).tickMove();
+            comet.tickMove();
         }
     }
 
     private void animateFallingStars(ArrayList<FallingStar> fallingStars) {
-        for (int i = 0; i < fallingStars.size(); i++) {
-            if (fallingStars.get(i).getLeftTravelDistance() < 0 & random.nextInt(50) == 1) {
-                generator.reuseFallingStar(fallingStars.get(i));
+        for (FallingStar fallingStar : fallingStars) {
+            if (fallingStar.getLeftTravelDistance() < 0 & random.nextInt(50) == 1) {
+                generator.reuseFallingStar(fallingStar);
             }
 
-            fallingStars.get(i).tickMove();
+            fallingStar.tickMove();
         }
     }
 
