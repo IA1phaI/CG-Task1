@@ -9,6 +9,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 
 import static ru.vsu.cs.course2.a1pha.DrawUtils.drawObjectArray;
@@ -244,7 +245,7 @@ public class DrawPanel extends JPanel {
     }
 
     private void animateProjectiles() {
-        ArrayList<Integer> destructionIndexes = new ArrayList<>();
+        LinkedList<Integer> destructionIndexes = new LinkedList<>();
 
         for (int i = 0; i < projectiles.size(); i++) {
             if (projectiles.get(i).getX() < 0 ||
