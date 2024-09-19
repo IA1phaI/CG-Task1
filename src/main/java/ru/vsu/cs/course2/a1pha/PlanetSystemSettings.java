@@ -12,7 +12,7 @@ public class PlanetSystemSettings {
     public final int[] planetsX = new int[]{170, 205, 245, 285, 375, 530, 630, 710};
     public final int[] planetsRadiuses = new int[]{10, 18, 20, 15, 70, 50, 30, 30};
     public final int[] beltRadiuses = new int[]{0, 0, 0, 0, 90, 100, 40, 50};
-    public final Color[] normalPlanetsPalette = new Color[] {
+    public final Color[] normalPlanetsColor = new Color[]{
             Color.yellow.darker(),
             Color.orange.darker(),
             Color.cyan.darker(),
@@ -35,7 +35,7 @@ public class PlanetSystemSettings {
     public final Color normalSunMainColor = Color.orange;
     public final Color noramalSunLightColor = Color.orange;
 
-    public static final Color[] invasionPlanetsPalette = new Color[] {
+    public static final Color[] invasionPlanetsPalette = new Color[]{
             Color.yellow.darker().darker().darker().darker(),
             Color.orange.darker().darker().darker().darker(),
             Color.cyan.darker().darker().darker().darker(),
@@ -77,4 +77,15 @@ public class PlanetSystemSettings {
     public final int invasionTextBlinkTime = 10;
 
     public final int fallingAngle = 135;
+
+    public final int ufoMinWidth = 40;
+    public final int ufoMaxWidth = 100;
+    public final int ufoMinSpeed = 1;
+    public final int ufoMaxSpeed = 14;
+    public final Color[] ufoColors = new Color[]{
+            Color.green.darker(),
+            Color.green,
+            Color.darkGray,
+            Color.gray
+    };
 }

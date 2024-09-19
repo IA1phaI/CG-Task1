@@ -1,18 +1,19 @@
-package ru.vsu.cs.course2.a1pha.cosmicObjects;
+package ru.vsu.cs.course2.a1pha;
 
+import ru.vsu.cs.course2.a1pha.cosmicObjects.Comet;
+import ru.vsu.cs.course2.a1pha.cosmicObjects.FallingStar;
 import ru.vsu.cs.course2.a1pha.cosmicObjects.stars.SmallStar;
-import ru.vsu.cs.course2.a1pha.PlanetSystemSettings;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class CosmicObjectsGenerator {
+public class PaintableObjectGenerator {
     private final int height, width;
     private final double scalingFactor;
     private final Random random = new Random();
     PlanetSystemSettings settings;
 
-    public CosmicObjectsGenerator(int height, int width, double scalingFactor) {
+    public PaintableObjectGenerator(int height, int width, double scalingFactor) {
         this.height = height;
         this.width = width;
         this.scalingFactor = scalingFactor;
@@ -140,4 +141,29 @@ public class CosmicObjectsGenerator {
 
         return fallingStars;
     }
+
+    public void redirectUFO(UFO ufo) {
+        ufo.setSpeed(random.nextInt(2, 14));
+        ufo.setMovingAngle(ufo.getMovingAngle() + Math.toRadians(random.nextInt(165, 195)));
+    }
+
+    public UFO generateUFO() {
+        return new UFO(
+                random.nextInt(0, width),
+                random.nextInt(0, height),
+                random.nextInt(settings.ufoMinWidth, settings.ufoMaxWidth),
+                random.nextInt(settings.ufoMinSpeed, settings.ufoMaxSpeed),
+                Math.toRadians(random.nextInt(0, 360)),
+                settings.ufoColors[random.nextInt(0, settings.ufoColors.length)]
+        );
+    }
+    public ArrayList<UFO> generateUFOs(int newCount) {
+        ArrayList<UFO> ufos = new ArrayList<>(newCount);
+        while (ufos.size() < newCount) {
+            ufos.add(generateUFO());
+        }
+
+        return ufos;
+    }
+
 }

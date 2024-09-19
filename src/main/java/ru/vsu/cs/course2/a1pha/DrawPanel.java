@@ -33,6 +33,7 @@ public class DrawPanel extends JPanel {
     private final ArrayList<Comet> invasionCometsFore;
     private final ArrayList<FallingStar> fallingStars;
     private final ArrayList<FallingStar> invasionFallingStars;
+    private final ArrayList<UFO> ufos;
 
     private final ArrayList<Projectile> projectiles;
 
@@ -44,7 +45,7 @@ public class DrawPanel extends JPanel {
 
     private final MousePointer mousePointer;
 
-    private final CosmicObjectsGenerator generator;
+    private final PaintableObjectGenerator generator;
 
     public final Font invasionTextFont;
 
@@ -59,7 +60,7 @@ public class DrawPanel extends JPanel {
 
         mousePointer = new MousePointer(-100, -100, scalingFactor, 15);
 
-        generator = new CosmicObjectsGenerator(height, width, scalingFactor);
+        generator = new PaintableObjectGenerator(height, width, scalingFactor);
 
         invasionTextFont = new Font(
                 settings.invasionTextFontName,
@@ -82,6 +83,8 @@ public class DrawPanel extends JPanel {
         fallingStars = generator.generateFallingStars(2);
         invasionFallingStars = generator.generateFallingStars(200);
 
+        ufos = generator.generateUFOs(4);
+
         planets = new ArrayList<>(settings.planetsX.length);
         orbits = new ArrayList<>(settings.planetsX.length);
         for (int i = 0; i < settings.planetsX.length; i++) {
@@ -90,7 +93,7 @@ public class DrawPanel extends JPanel {
                         (int) (settings.planetsX[i] * scalingFactor),
                         systemCenterPoint.y(),
                         (int) (settings.planetsRadiuses[i] * scalingFactor),
-                        settings.normalPlanetsPalette[i]
+                        settings.normalPlanetsColor[i]
                         ));
             } else {
                 planets.add(new BeltedPlanet(
@@ -98,7 +101,7 @@ public class DrawPanel extends JPanel {
                         systemCenterPoint.y(),
                         (int) (settings.planetsRadiuses[i] * scalingFactor),
                         (int) (settings.beltRadiuses[i] * scalingFactor),
-                        settings.normalPlanetsPalette[i]
+                        settings.normalPlanetsColor[i]
                         ));
             }
             orbits.add(new Orbit(
@@ -202,6 +205,7 @@ public class DrawPanel extends JPanel {
 
         if (isInvasion) {
             drawObjectArray(invasionCometsFore, g2d);
+            drawObjectArray(ufos, g2d);
         }
 
         mousePointer.draw(g2d);
@@ -265,6 +269,25 @@ public class DrawPanel extends JPanel {
         }
     }
 
+    private void animateUFOs() {
+        for (UFO ufo : ufos) {
+            if (ufo.getX() - ufo.getWidth() < 0 ||
+                    ufo.getX() + ufo.getWidth() > width ||
+                    ufo.getY() - ufo.getWidth() < 0 ||
+                    ufo.getY() + ufo.getWidth() > height) {
+                generator.redirectUFO(ufo);
+                System.out.printf("%d, %d, %d, %d\n",
+                        ufo.getX() - ufo.getWidth(),
+                        ufo.getX() + ufo.getWidth(),
+                        ufo.getY() - ufo.getWidth(),
+                        ufo.getY() + ufo.getWidth());
+            } else {
+                ufo.tickMove();
+            }
+
+        }
+    }
+
     public void motion() {
         animateComets(cometsBack);
         animateComets(cometsFore);
@@ -273,6 +296,7 @@ public class DrawPanel extends JPanel {
         animateFallingStars(fallingStars);
         animateFallingStars(invasionFallingStars);
         animateProjectiles();
+        animateUFOs();
 
         repaint();
     }
@@ -286,7 +310,7 @@ public class DrawPanel extends JPanel {
         if (isInvasion) {
             isInvasion = false;
             recolorCosmicBodies(
-                    settings.normalPlanetsPalette,
+                    settings.normalPlanetsColor,
                     settings.normalSunMainColor,
                     settings.noramalSunLightColor);
         } else {
