@@ -1,5 +1,7 @@
 package ru.vsu.cs.course2.a1pha;
 
+import ru.vsu.cs.course2.a1pha.utils.MathUtils;
+
 public abstract class TickMovingObject extends PaintableObject {
     private int xSpeed;
     private int ySpeed;
@@ -31,11 +33,11 @@ public abstract class TickMovingObject extends PaintableObject {
     }
 
     public double getSpeed() {
-        return Math.sqrt(xSpeed * xSpeed + ySpeed * ySpeed);
+        return MathUtils.getHypotenuse(xSpeed, ySpeed);
     }
 
     public double getMovingAngle() {
-        return Math.acos(xSpeed / getSpeed()) * (Math.signum(ySpeed));
+       return MathUtils.getVectorAngle(xSpeed, ySpeed);
     }
 
     public void setMovingAngle(double angle) {

@@ -1,5 +1,6 @@
 package ru.vsu.cs.course2.a1pha;
 
+import ru.vsu.cs.course2.a1pha.utils.MathUtils;
 import ru.vsu.cs.course2.a1pha.utils.Point;
 
 import java.awt.*;
@@ -110,21 +111,7 @@ public class MousePointer extends PaintableObject {
     public double getAngle() {
         Point pastPosition = positionsBuffer.peek();
         assert pastPosition != null;
-        int dx = getX() - pastPosition.x();
-        int dy = getY() - pastPosition.y();
-        double angle;
-        if (dx == 0) {
-            if (dy < 0) {
-                angle = Math.toRadians(-90);
-            } else {
-                angle = Math.toRadians(90);
-            }
-        } else {
-            angle = Math.atan((dy) * 1.0 / (dx));
-            if (dx < 0)
-            angle += Math.toRadians(180);
-        }
-        return angle;
+        return MathUtils.getVectorAngle(getX() - pastPosition.x(), getY() - pastPosition.y());
     }
 
     public Projectile createProjectile() {
