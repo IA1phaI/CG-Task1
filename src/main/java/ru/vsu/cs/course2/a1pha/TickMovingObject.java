@@ -1,33 +1,51 @@
 package ru.vsu.cs.course2.a1pha;
 
 public abstract class TickMovingObject extends PaintableObject {
-    int speed;
-    double angle;
+    private int xSpeed;
+    private int ySpeed;
 
-    public TickMovingObject(int x, int y, int speed, double angle) {
+    public TickMovingObject(int x, int y, int xSpeed, int ySpeed) {
         super(x, y);
-        this.speed = speed;
-        this.angle = angle;
+        this.xSpeed = xSpeed;
+        this.ySpeed = ySpeed;
     }
 
-    public int getSpeed() {
-        return speed;
+    public TickMovingObject(int x, int y, int speed, double movingAngle) {
+        this(x, y, (int) (speed * Math.cos(movingAngle)), (int) (speed * Math.sin(movingAngle)));
     }
 
-    public void setSpeed(int speed) {
-        this.speed = speed;
+    public int getXSpeed() {
+        return xSpeed;
+    }
+
+    public void setXSpeed(int xSpeed) {
+        this.xSpeed = xSpeed;
+    }
+
+    public int getYSpeed() {
+        return ySpeed;
+    }
+
+    public void setYSpeed(int ySpeed) {
+        this.ySpeed = ySpeed;
+    }
+
+    public double getSpeed() {
+        return Math.sqrt(xSpeed * xSpeed + ySpeed * ySpeed);
     }
 
     public double getMovingAngle() {
-        return angle;
+        return Math.acos(xSpeed / getSpeed()) * (Math.signum(ySpeed));
     }
 
     public void setMovingAngle(double angle) {
-        this.angle = angle;
+        double speed = getSpeed();
+        xSpeed = (int) (speed * Math.cos(angle));
+        ySpeed = (int) (speed * Math.sin(angle));
     }
 
     public void tickMove() {
-        setX((int) (getX() + speed * Math.cos(angle)));
-        setY((int) (getY() + speed * Math.sin(angle)));
+        setX((getX() + xSpeed));
+        setY((getY() + ySpeed));
     }
 }

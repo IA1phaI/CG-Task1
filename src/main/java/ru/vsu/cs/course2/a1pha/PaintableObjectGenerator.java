@@ -4,18 +4,19 @@ import ru.vsu.cs.course2.a1pha.cosmicObjects.Comet;
 import ru.vsu.cs.course2.a1pha.cosmicObjects.FallingStar;
 import ru.vsu.cs.course2.a1pha.cosmicObjects.stars.SmallStar;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class PaintableObjectGenerator {
-    private final int height, width;
+    private final int frameHeight, frameWidth;
     private final double scalingFactor;
     private final Random random = new Random();
     PlanetSystemSettings settings;
 
-    public PaintableObjectGenerator(int height, int width, double scalingFactor) {
-        this.height = height;
-        this.width = width;
+    public PaintableObjectGenerator(int frameHeight, int frameWidth, double scalingFactor) {
+        this.frameHeight = frameHeight;
+        this.frameWidth = frameWidth;
         this.scalingFactor = scalingFactor;
         settings = new PlanetSystemSettings();
     }
@@ -24,8 +25,8 @@ public class PaintableObjectGenerator {
         ArrayList<SmallStar> stars = new ArrayList<>(count);
         for (int i = 0; i < count; i++) {
             stars.add(new SmallStar(
-                    random.nextInt(width),
-                    random.nextInt(height),
+                    random.nextInt(frameWidth),
+                    random.nextInt(frameHeight),
 
                     random.nextInt(
                             (int) (settings.smallStarMinRadius * scalingFactor),
@@ -37,37 +38,47 @@ public class PaintableObjectGenerator {
         return stars;
     }
 
+
+    // COMETS
+
+    private int generateCometHeadRadius() {
+        return (int) (random.nextInt(
+                settings.cometMinHeadRadius,
+                settings.cometMaxHeadRadius) * scalingFactor);
+    }
+
+    private int generateCometAbsAxisSpeed() {
+        return (int) (random.nextInt(
+                settings.cometMinAbsAxisSpeed,
+                settings.cometMaxAbsAxisSpeed) * scalingFactor);
+    }
+
+    private Color generateCometColor() {
+        return settings.starColors[random.nextInt(3)];
+    }
+
     public void reuseComet(Comet comet) {
-        comet.setX(random.nextInt(width * 3 / 2));
+        comet.setX(random.nextInt(frameWidth * 3 / 2));
         comet.setY((int) (-settings.cometMaxHeadRadius * scalingFactor));
 
-        comet.setHeadRadius((int) (random.nextInt(
-                settings.cometMinHeadRadius,
-                settings.cometMaxHeadRadius) * scalingFactor));
+        comet.setHeadRadius(generateCometHeadRadius());
 
-        comet.setSpeed((int) (random.nextInt(
-                settings.cometMinSpeed,
-                settings.cometMaxSpeed) * scalingFactor));
-        comet.setMovingAngle(Math.toRadians(settings.fallingAngle));
+        int absAxisSpeed = generateCometAbsAxisSpeed();
+        comet.setXSpeed(-absAxisSpeed);
+        comet.setYSpeed(absAxisSpeed);
 
-        comet.setColor(settings.starColors[random.nextInt(3)]);
+        comet.setColor(generateCometColor());
     }
 
     public Comet generateComet() {
+        int absAxisSpeed = generateCometAbsAxisSpeed();
         return new Comet(
-                random.nextInt(width * 3 / 2),
+                random.nextInt(frameWidth * 3 / 2),
                 (int) (-settings.cometMaxHeadRadius * scalingFactor),
-
-                (int) (random.nextInt(
-                        settings.cometMinHeadRadius,
-                        settings.cometMaxHeadRadius) * scalingFactor),
-
-                (int) (random.nextInt(settings.cometMinSpeed,
-                        settings.cometMaxSpeed) * scalingFactor),
-
-                Math.toRadians(settings.fallingAngle),
-
-                settings.starColors[random.nextInt(3)]
+                generateCometHeadRadius(),
+                -absAxisSpeed,
+                absAxisSpeed,
+                generateCometColor()
         );
     }
 
@@ -81,54 +92,61 @@ public class PaintableObjectGenerator {
         return comets;
     }
 
-    public void reuseFallingStar(FallingStar fallingStar) {
-        fallingStar.setX(random.nextInt(0, (int) (width + 300 * scalingFactor)));
-        fallingStar.setY(random.nextInt((int) (-100 * scalingFactor), height));
+    // FALLING STARS
 
-        fallingStar.setLength((int) (random.nextInt(
+    public int generateFallingStarLength() {
+        return (int) (random.nextInt(
                 settings.fallingStarMinLength,
-                settings.fallingStarMaxLength) * scalingFactor));
+                settings.fallingStarMaxLength) * scalingFactor);
+    }
 
-        fallingStar.setHeight((int) (random.nextInt(
+    public int generateFallingStarWidth() {
+        return (int) (random.nextInt(
                 settings.fallingStarMinHeight,
-                settings.fallingStarMaxHeight) * scalingFactor));
+                settings.fallingStarMaxWidth) * scalingFactor);
+    }
 
-        fallingStar.setSpeed((int) (random.nextInt(
-                settings.fallingStarMinSpeed,
-                settings.fallingStarMaxSpeed) * scalingFactor));
+    public int generateFallingStarAbsAxisSpeed() {
+        return (int) (random.nextInt(
+                settings.fallingStarMinAbsAxisSpeed,
+                settings.fallingStarMaxAbsAxisSpeed) * scalingFactor);
+    }
 
-        fallingStar.setLeftTravelDistance((int) (random.nextInt(
+    public int generateFallingStarTravelDistance() {
+        return (int) (random.nextInt(
                 settings.fallingStarMinTravelDistance,
-                settings.fallingStarMaxTravelDistance) * scalingFactor));
+                settings.fallingStarMaxTravelDistance) * scalingFactor);
+    }
 
-        fallingStar.setMovingAngle(Math.toRadians(settings.fallingAngle));
+    public void reuseFallingStar(FallingStar fallingStar) {
+        fallingStar.setX(random.nextInt(0, (int) (frameWidth + 300 * scalingFactor)));
+        fallingStar.setY(random.nextInt((int) (-100 * scalingFactor), frameHeight));
+
+        fallingStar.setLength(generateFallingStarLength());
+
+        fallingStar.setWidth(generateFallingStarWidth());
+
+        int absAxisSpeed = generateFallingStarAbsAxisSpeed();
+        fallingStar.setXSpeed(-absAxisSpeed);
+        fallingStar.setYSpeed(absAxisSpeed);
+
+        fallingStar.setLeftTravelDistance(generateFallingStarTravelDistance());
 
         fallingStar.setColor(settings.fallingStarColor);
     }
 
     public FallingStar generateFallingStar() {
+        int absAxisSpeed = generateFallingStarAbsAxisSpeed();
         return new FallingStar(
-                random.nextInt(0, (int) (width + 300 * scalingFactor)),
-                random.nextInt((int) (-100 * scalingFactor), height),
+                random.nextInt(0, (int) (frameWidth + 300 * scalingFactor)),
+                random.nextInt((int) (-100 * scalingFactor), frameHeight),
 
-                (int) (random.nextInt(
-                        settings.fallingStarMinLength,
-                        settings.fallingStarMaxLength) * scalingFactor),
+                generateFallingStarLength(),
+                generateFallingStarWidth(),
+                -absAxisSpeed,
+                absAxisSpeed,
 
-                (int) (random.nextInt(
-                        settings.fallingStarMinHeight,
-                        settings.fallingStarMaxHeight) * scalingFactor),
-
-                (int) (random.nextInt(
-                        settings.fallingStarMinSpeed,
-                        settings.fallingStarMaxSpeed) * scalingFactor),
-
-                (int) (random.nextInt(
-                        settings.fallingStarMinTravelDistance,
-                        settings.fallingStarMaxTravelDistance) * scalingFactor),
-
-                Math.toRadians(settings.fallingAngle),
-
+                generateFallingStarTravelDistance(),
                 settings.fallingStarColor
         );
     }
@@ -142,19 +160,65 @@ public class PaintableObjectGenerator {
         return fallingStars;
     }
 
+    // UFO
+
+    public int generateUFOWidth() {
+        return (int) (random.nextInt(
+                settings.ufoMinWidth,
+                settings.ufoMaxWidth) * scalingFactor);
+    }
+
+    public int generateUFOAbsAxisSpeed() {
+        return (int) (random.nextInt(settings.ufoMaxAbsAxisSpeed) * scalingFactor);
+    }
+
+    public int generateUFOAxisSpeed() {
+        return generateUFOAbsAxisSpeed() * (random.nextInt(2) == 0 ? 1 : -1);
+    }
+
+    public Color generateUFOCorpsColor() {
+        return settings.ufoColors[random.nextInt(0, settings.ufoColors.length)];
+    }
+
     public void redirectUFO(UFO ufo) {
-        ufo.setSpeed(random.nextInt(2, 14));
-        ufo.setMovingAngle(ufo.getMovingAngle() + Math.toRadians(random.nextInt(165, 195)));
+        int absAxisSpeed = 0;
+        int axisSpeed = 0;
+        while (absAxisSpeed == 0 && axisSpeed == 0) {
+            absAxisSpeed = generateUFOAbsAxisSpeed();
+            axisSpeed = generateUFOAxisSpeed(); 
+        }
+        if (ufo.getX() - (ufo.getWidth() >> 1) < 0) {
+            ufo.setXSpeed(generateUFOAbsAxisSpeed());
+            ufo.setYSpeed(generateUFOAxisSpeed());
+        }
+        if (ufo.getX() + (ufo.getWidth() >> 1) > frameWidth) {
+            ufo.setXSpeed(-generateUFOAbsAxisSpeed());
+            ufo.setYSpeed(generateUFOAxisSpeed());
+        }
+        if (ufo.getY() - (ufo.getWidth() >> 1) < 0) {
+            ufo.setXSpeed(generateUFOAxisSpeed());
+            ufo.setYSpeed(generateUFOAbsAxisSpeed());
+        }
+        if (ufo.getY() + (ufo.getWidth() >> 1) > frameHeight) {
+            ufo.setXSpeed(generateUFOAxisSpeed());
+            ufo.setYSpeed(-1 * generateUFOAbsAxisSpeed());
+        }
     }
 
     public UFO generateUFO() {
+        int axisSpeed1 = 0, axisSpeed2 = 0;
+        while (axisSpeed1 == 0 && axisSpeed2 == 0) {
+            axisSpeed1 = generateUFOAxisSpeed();
+            axisSpeed2 = generateUFOAxisSpeed();
+        }
+
         return new UFO(
-                random.nextInt(0, width),
-                random.nextInt(0, height),
-                random.nextInt(settings.ufoMinWidth, settings.ufoMaxWidth),
-                random.nextInt(settings.ufoMinSpeed, settings.ufoMaxSpeed),
-                Math.toRadians(random.nextInt(0, 360)),
-                settings.ufoColors[random.nextInt(0, settings.ufoColors.length)]
+                random.nextInt(0, frameWidth),
+                random.nextInt(0, frameHeight),
+                generateUFOWidth(),
+                axisSpeed1,
+                axisSpeed2,
+                generateUFOCorpsColor()
         );
     }
     public ArrayList<UFO> generateUFOs(int newCount) {

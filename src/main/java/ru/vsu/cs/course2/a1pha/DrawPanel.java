@@ -271,20 +271,14 @@ public class DrawPanel extends JPanel {
 
     private void animateUFOs() {
         for (UFO ufo : ufos) {
-            if (ufo.getX() - ufo.getWidth() < 0 ||
-                    ufo.getX() + ufo.getWidth() > width ||
-                    ufo.getY() - ufo.getWidth() < 0 ||
-                    ufo.getY() + ufo.getWidth() > height) {
+            if (ufo.getX() - (ufo.getWidth() >> 1) < 0 ||
+                    ufo.getX() + (ufo.getWidth() >> 1) > width ||
+                    ufo.getY() - (ufo.getWidth() >> 1) < 0 ||
+                    ufo.getY() + (ufo.getWidth() >> 1) > height) {
                 generator.redirectUFO(ufo);
-                System.out.printf("%d, %d, %d, %d\n",
-                        ufo.getX() - ufo.getWidth(),
-                        ufo.getX() + ufo.getWidth(),
-                        ufo.getY() - ufo.getWidth(),
-                        ufo.getY() + ufo.getWidth());
-            } else {
-                ufo.tickMove();
             }
 
+            ufo.tickMove();
         }
     }
 

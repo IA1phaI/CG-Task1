@@ -6,24 +6,24 @@ import java.awt.*;
 
 public class FallingStar extends TickMovingObject {
     private int length;
-    private int height;
+    private int width;
     private int leftTravelDistance;
     private Color color;
 
-    public FallingStar(int x, int y, int length, int height, int speed, int distanceToTravel, double angle, Color color) {
-        super(x, y, speed, angle);
+    public FallingStar(int x, int y, int length, int width, int xSpeed, int ySpeed, int distanceToTravel, Color color) {
+        super(x, y, xSpeed, ySpeed);
         this.length = length;
-        this.height = height;
-        this.color = color;
+        this.width = width;
         this.leftTravelDistance = distanceToTravel;
+        this.color = color;
     }
 
     public void setLength(int length) {
         this.length = length;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    public void setWidth(int width) {
+        this.width = width;
     }
 
     public void setColor(Color color) {
@@ -42,7 +42,7 @@ public class FallingStar extends TickMovingObject {
     public void draw(Graphics2D g2d) {
         g2d.setColor(color);
         g2d.rotate(getMovingAngle(), getX(), getY());
-        g2d.fillRoundRect(getX() - (length / 2), getY() - (height / 2), length, height, 5, 5);
+        g2d.fillRoundRect(getX() - (length / 2), getY() - (width / 2), length, width, 5, 5);
         g2d.rotate(-getMovingAngle(), getX(), getY());
     }
     
@@ -55,6 +55,6 @@ public class FallingStar extends TickMovingObject {
     @Override
     public void tickMove() {
         super.tickMove();
-        leftTravelDistance -= getSpeed();
+        leftTravelDistance -= (int) getSpeed();
     }
 }

@@ -10,8 +10,8 @@ public class UFO extends TickMovingObject {
     private static final Color CABIN_COLOR = Color.yellow;
     private static final Color HEAD_COLOR = CABIN_COLOR.darker().darker();
 
-    public UFO(int x, int y, int width, int speed, double movingAngle, Color corpsColor) {
-        super(x, y, speed, movingAngle);
+    public UFO(int x, int y, int width, int xSpeed, int ySpeed, Color corpsColor) {
+        super(x, y, xSpeed, ySpeed);
         this.width = width;
         this.corpsColor = corpsColor;
     }
