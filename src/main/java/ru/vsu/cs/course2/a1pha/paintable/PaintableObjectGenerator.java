@@ -223,6 +223,7 @@ public class PaintableObjectGenerator {
                 generateUFOCorpsColor()
         );
     }
+
     public ArrayList<UFO> generateUFOs(int newCount) {
         ArrayList<UFO> ufos = new ArrayList<>(newCount);
         while (ufos.size() < newCount) {
@@ -231,5 +232,4 @@ public class PaintableObjectGenerator {
 
         return ufos;
     }
-
 }
