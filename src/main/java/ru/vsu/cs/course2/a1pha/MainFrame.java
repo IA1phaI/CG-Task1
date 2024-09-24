@@ -12,28 +12,27 @@ public class MainFrame extends JDialog {
     private JButton buttonOK;
     private JPanel paintAreaPanel;
     private final DrawPanel drawPanel;
-    private int frameWidth, frameHeight;
-
-    private Timer timer = new Timer(40, new AbstractAction() {
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
-            drawPanel.animateTick();
-        }
-    });
 
     public MainFrame() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        frameWidth = 1600;
-        frameHeight = 900;
-//        frameWidth = 800;
-//        frameHeight = 600;
+        int frameWidth = 1600;
+        int frameHeight = 900;
+//        int frameWidth = 800;
+//        int frameHeight = 600;
         drawPanel = new DrawPanel(frameWidth, frameHeight);
         paintAreaPanel.add(drawPanel);
         setMinimumSize(new Dimension(frameWidth, frameHeight));
         setMaximumSize(new Dimension(frameWidth, frameHeight));
         setResizable(false);
+
+        Timer timer = new Timer(40, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                drawPanel.animateTick();
+            }
+        });
         timer.start();
     }
 
