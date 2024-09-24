@@ -59,7 +59,7 @@ public class DrawPanel extends JPanel {
         this.width = frameWidth - 36;
         this.height = frameHeight - 66;
 
-        mousePointer = new MousePointer(-100, -100, scalingFactor, 15);
+        mousePointer = new MousePointer(scalingFactor, 15);
 
         generator = new PaintableObjectGenerator(height, width, scalingFactor);
 

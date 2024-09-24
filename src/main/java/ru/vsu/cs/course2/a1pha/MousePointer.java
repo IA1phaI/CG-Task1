@@ -21,12 +21,12 @@ public class MousePointer extends PaintableObject {
     private final int nozzleEdgeRadius;
     private final int portholeDiameter;
 
-    public MousePointer(int x, int y, double scalingFactor, int positionsBufferSize) {
-        super(x, y);
+    public MousePointer(double scalingFactor, int positionsBufferSize) {
+        super(-100, -100);
         this.scalingFactor = scalingFactor;
         this.positionsBufferSize = positionsBufferSize;
         positionsBuffer = new LinkedList<>();
-        bufferPosition(x, y);
+        bufferPosition(-200, -200);
 
         noseHeight = (int) (15 * scalingFactor);
         bodyWidth = (int) (16 * scalingFactor);
@@ -56,7 +56,7 @@ public class MousePointer extends PaintableObject {
 
     @Override
     public void draw(Graphics2D g2d) {
-        double angle = getAngle();
+        double angle = getDirectionAngle();
 
         g2d.rotate(angle, getX(), getY());
         g2d.setColor(Color.gray);
@@ -108,7 +108,7 @@ public class MousePointer extends PaintableObject {
         at.translate(0, -y);
         return at.createTransformedShape(shape);
     }
-    public double getAngle() {
+    public double getDirectionAngle() {
         Point pastPosition = positionsBuffer.peek();
         assert pastPosition != null;
         return MathUtils.getVectorAngle(getX() - pastPosition.x(), getY() - pastPosition.y());
@@ -121,6 +121,6 @@ public class MousePointer extends PaintableObject {
                 (int) (20 * scalingFactor),
                 (int) (20 * scalingFactor),
                 (int) (3 * scalingFactor),
-                getAngle());
+                getDirectionAngle());
     }
 }
