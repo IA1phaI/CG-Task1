@@ -74,7 +74,7 @@ public class PlanetSystemSettings {
     public final String invasionTextFontName = "SansSerif";
     public final int invasionTextFontStyle = Font.BOLD;
     public final int invasionTextFontSize = 100;
-    public final int invasionTextBlinkTime = 10;
+    public final int invasionTextBlinkDuration = 10;
 
     public final int ufoMinWidth = 40;
     public final int ufoMaxWidth = 100;

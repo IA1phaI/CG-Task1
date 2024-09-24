@@ -1,8 +1,8 @@
 package ru.vsu.cs.course2.a1pha;
 
-import ru.vsu.cs.course2.a1pha.cosmicObjects.Comet;
-import ru.vsu.cs.course2.a1pha.cosmicObjects.FallingStar;
-import ru.vsu.cs.course2.a1pha.cosmicObjects.stars.SmallStar;
+import ru.vsu.cs.course2.a1pha.cosmic_objects.Comet;
+import ru.vsu.cs.course2.a1pha.cosmic_objects.FallingStar;
+import ru.vsu.cs.course2.a1pha.cosmic_objects.stars.SmallStar;
 
 import java.awt.*;
 import java.util.ArrayList;

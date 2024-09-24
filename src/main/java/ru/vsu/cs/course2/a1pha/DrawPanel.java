@@ -1,16 +1,17 @@
 package ru.vsu.cs.course2.a1pha;
 
-import ru.vsu.cs.course2.a1pha.cosmicObjects.*;
-import ru.vsu.cs.course2.a1pha.cosmicObjects.planets.BeltedPlanet;
-import ru.vsu.cs.course2.a1pha.cosmicObjects.planets.SimplePlanet;
-import ru.vsu.cs.course2.a1pha.cosmicObjects.stars.BigStar;
-import ru.vsu.cs.course2.a1pha.cosmicObjects.stars.SmallStar;
+import ru.vsu.cs.course2.a1pha.cosmic_objects.*;
+import ru.vsu.cs.course2.a1pha.cosmic_objects.planets.BeltedPlanet;
+import ru.vsu.cs.course2.a1pha.cosmic_objects.planets.SimplePlanet;
+import ru.vsu.cs.course2.a1pha.cosmic_objects.stars.BigStar;
+import ru.vsu.cs.course2.a1pha.cosmic_objects.stars.SmallStar;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -35,7 +36,7 @@ public class DrawPanel extends JPanel {
     private final ArrayList<FallingStar> invasionFallingStars;
     private final ArrayList<UFO> ufos;
 
-    private final ArrayList<Projectile> projectiles;
+    private final HashSet<Projectile> projectiles;
 
     private final ru.vsu.cs.course2.a1pha.utils.Point systemCenterPoint;
 
@@ -67,7 +68,7 @@ public class DrawPanel extends JPanel {
                 settings.invasionTextFontStyle,
                 (int) (settings.invasionTextFontSize * scalingFactor));
 
-        projectiles = new ArrayList<>();
+        projectiles = new HashSet<>();
 
         stars = generator.generateSmallStars(100);
 
@@ -212,19 +213,19 @@ public class DrawPanel extends JPanel {
         drawObjectArray(projectiles, g2d);
 
         if (isInvasion) {
-            drawWarning(g2d);
+            animateWarning(g2d);
         }
     }
 
-    private void drawWarning(Graphics2D g2d) {
-        if (warningTimeCounter < settings.invasionTextBlinkTime) {
+    private void animateWarning(Graphics2D g2d) {
+        if (warningTimeCounter < settings.invasionTextBlinkDuration) {
             g2d.setColor(settings.invasionTextColor);
             g2d.setFont(invasionTextFont);
             g2d.drawString(
                     settings.invasionText,
                     width / 11 * 2,
                     height / 5 * 3);
-        } else if (warningTimeCounter > settings.invasionTextBlinkTime << 1) {
+        } else if (warningTimeCounter > settings.invasionTextBlinkDuration << 1) {
             warningTimeCounter = 0;
         }
 
@@ -251,21 +252,21 @@ public class DrawPanel extends JPanel {
     }
 
     private void animateProjectiles() {
-        LinkedList<Integer> destructionIndexes = new LinkedList<>();
+        LinkedList<Projectile> projectilesToDestruct = new LinkedList<>();
 
-        for (int i = 0; i < projectiles.size(); i++) {
-            if (projectiles.get(i).getX() < 0 ||
-                    projectiles.get(i).getX() > width ||
-                    projectiles.get(i).getY() < 0 ||
-                    projectiles.get(i).getY() > height) {
-                destructionIndexes.add(i);
+        for (Projectile projectile : projectiles) {
+            if (projectile.getX() < 0 ||
+                    projectile.getX() > width ||
+                    projectile.getY() < 0 ||
+                    projectile.getY() > height) {
+                projectilesToDestruct.add(projectile);
             } else {
-                projectiles.get(i).tickMove();
+                projectile.tickMove();
             }
         }
 
-        for (Integer i : destructionIndexes) {
-            projectiles.remove((int) i);
+        for (Projectile projectile : projectilesToDestruct) {
+            projectiles.remove(projectile);
         }
     }
 
@@ -282,7 +283,7 @@ public class DrawPanel extends JPanel {
         }
     }
 
-    public void motion() {
+    public void animateTick() {
         animateComets(cometsBack);
         animateComets(cometsFore);
         animateComets(invasionCometsBack);

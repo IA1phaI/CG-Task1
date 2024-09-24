@@ -1,4 +1,4 @@
-package ru.vsu.cs.course2.a1pha.cosmicObjects.stars;
+package ru.vsu.cs.course2.a1pha.cosmic_objects.stars;
 
 import ru.vsu.cs.course2.a1pha.PaintableObject;
 

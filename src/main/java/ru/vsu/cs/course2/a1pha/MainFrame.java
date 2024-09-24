@@ -11,13 +11,13 @@ public class MainFrame extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JPanel paintAreaPanel;
-    private DrawPanel drawPanel;
+    private final DrawPanel drawPanel;
     private int frameWidth, frameHeight;
 
     private Timer timer = new Timer(40, new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            drawPanel.motion();
+            drawPanel.animateTick();
         }
     });
 

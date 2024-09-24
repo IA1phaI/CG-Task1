@@ -1,4 +1,4 @@
-package ru.vsu.cs.course2.a1pha.cosmicObjects.planets;
+package ru.vsu.cs.course2.a1pha.cosmic_objects.planets;
 
 import java.awt.*;
 

@@ -1,4 +1,4 @@
-package ru.vsu.cs.course2.a1pha.cosmicObjects;
+package ru.vsu.cs.course2.a1pha.cosmic_objects;
 
 import ru.vsu.cs.course2.a1pha.TickMovingObject;
 
