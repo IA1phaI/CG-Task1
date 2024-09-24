@@ -1,5 +1,7 @@
-package ru.vsu.cs.course2.a1pha;
+package ru.vsu.cs.course2.a1pha.paintable.objects;
 
+import ru.vsu.cs.course2.a1pha.paintable.PaintableObject;
+import ru.vsu.cs.course2.a1pha.paintable.tick_moving.Projectile;
 import ru.vsu.cs.course2.a1pha.utils.MathUtils;
 import ru.vsu.cs.course2.a1pha.utils.Point;
 

@@ -1,6 +1,6 @@
-package ru.vsu.cs.course2.a1pha.cosmic_objects;
+package ru.vsu.cs.course2.a1pha.paintable.objects;
 
-import ru.vsu.cs.course2.a1pha.PaintableObject;
+import ru.vsu.cs.course2.a1pha.paintable.PaintableObject;
 import ru.vsu.cs.course2.a1pha.utils.Point;
 
 import java.awt.*;

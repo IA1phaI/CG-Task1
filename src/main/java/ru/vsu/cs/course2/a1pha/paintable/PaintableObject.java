@@ -1,4 +1,4 @@
-package ru.vsu.cs.course2.a1pha;
+package ru.vsu.cs.course2.a1pha.paintable;
 
 import ru.vsu.cs.course2.a1pha.utils.Point;
 

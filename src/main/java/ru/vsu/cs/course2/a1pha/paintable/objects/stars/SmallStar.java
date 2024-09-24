@@ -1,6 +1,6 @@
-package ru.vsu.cs.course2.a1pha.cosmic_objects.stars;
+package ru.vsu.cs.course2.a1pha.paintable.objects.stars;
 
-import ru.vsu.cs.course2.a1pha.PaintableObject;
+import ru.vsu.cs.course2.a1pha.paintable.PaintableObject;
 
 import java.awt.*;
 

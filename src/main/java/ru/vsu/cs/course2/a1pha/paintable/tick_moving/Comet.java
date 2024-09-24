@@ -1,6 +1,4 @@
-package ru.vsu.cs.course2.a1pha.cosmic_objects;
-
-import ru.vsu.cs.course2.a1pha.TickMovingObject;
+package ru.vsu.cs.course2.a1pha.paintable.tick_moving;
 
 import java.awt.*;
 

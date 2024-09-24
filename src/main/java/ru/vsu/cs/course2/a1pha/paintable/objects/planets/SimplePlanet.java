@@ -1,6 +1,6 @@
-package ru.vsu.cs.course2.a1pha.cosmic_objects.planets;
+package ru.vsu.cs.course2.a1pha.paintable.objects.planets;
 
-import ru.vsu.cs.course2.a1pha.PaintableObject;
+import ru.vsu.cs.course2.a1pha.paintable.PaintableObject;
 
 import java.awt.*;
 

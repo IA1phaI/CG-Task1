@@ -1,7 +1,7 @@
 package ru.vsu.cs.course2.a1pha.utils;
 
 import org.jetbrains.annotations.NotNull;
-import ru.vsu.cs.course2.a1pha.PaintableObject;
+import ru.vsu.cs.course2.a1pha.paintable.PaintableObject;
 
 import java.awt.*;
 import java.util.Collection;

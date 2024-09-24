@@ -1,5 +1,6 @@
-package ru.vsu.cs.course2.a1pha;
+package ru.vsu.cs.course2.a1pha.paintable.tick_moving;
 
+import ru.vsu.cs.course2.a1pha.paintable.PaintableObject;
 import ru.vsu.cs.course2.a1pha.utils.MathUtils;
 
 public abstract class TickMovingObject extends PaintableObject {

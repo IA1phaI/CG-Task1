@@ -1,10 +1,16 @@
 package ru.vsu.cs.course2.a1pha;
 
-import ru.vsu.cs.course2.a1pha.cosmic_objects.*;
-import ru.vsu.cs.course2.a1pha.cosmic_objects.planets.BeltedPlanet;
-import ru.vsu.cs.course2.a1pha.cosmic_objects.planets.SimplePlanet;
-import ru.vsu.cs.course2.a1pha.cosmic_objects.stars.BigStar;
-import ru.vsu.cs.course2.a1pha.cosmic_objects.stars.SmallStar;
+import ru.vsu.cs.course2.a1pha.paintable.objects.Orbit;
+import ru.vsu.cs.course2.a1pha.paintable.objects.planets.BeltedPlanet;
+import ru.vsu.cs.course2.a1pha.paintable.objects.planets.SimplePlanet;
+import ru.vsu.cs.course2.a1pha.paintable.objects.stars.BigStar;
+import ru.vsu.cs.course2.a1pha.paintable.objects.stars.SmallStar;
+import ru.vsu.cs.course2.a1pha.paintable.objects.MousePointer;
+import ru.vsu.cs.course2.a1pha.paintable.PaintableObjectGenerator;
+import ru.vsu.cs.course2.a1pha.paintable.tick_moving.Comet;
+import ru.vsu.cs.course2.a1pha.paintable.tick_moving.FallingStar;
+import ru.vsu.cs.course2.a1pha.paintable.tick_moving.Projectile;
+import ru.vsu.cs.course2.a1pha.paintable.tick_moving.UFO;
 
 import javax.swing.*;
 import java.awt.*;
