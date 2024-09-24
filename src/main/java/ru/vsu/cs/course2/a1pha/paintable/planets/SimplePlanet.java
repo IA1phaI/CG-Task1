@@ -1,4 +1,4 @@
-package ru.vsu.cs.course2.a1pha.paintable.objects.planets;
+package ru.vsu.cs.course2.a1pha.paintable.planets;
 
 import ru.vsu.cs.course2.a1pha.paintable.PaintableObject;
 

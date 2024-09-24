@@ -1,11 +1,11 @@
 package ru.vsu.cs.course2.a1pha;
 
-import ru.vsu.cs.course2.a1pha.paintable.objects.Orbit;
-import ru.vsu.cs.course2.a1pha.paintable.objects.planets.BeltedPlanet;
-import ru.vsu.cs.course2.a1pha.paintable.objects.planets.SimplePlanet;
-import ru.vsu.cs.course2.a1pha.paintable.objects.stars.BigStar;
-import ru.vsu.cs.course2.a1pha.paintable.objects.stars.SmallStar;
-import ru.vsu.cs.course2.a1pha.paintable.objects.MousePointer;
+import ru.vsu.cs.course2.a1pha.paintable.Orbit;
+import ru.vsu.cs.course2.a1pha.paintable.planets.BeltedPlanet;
+import ru.vsu.cs.course2.a1pha.paintable.planets.SimplePlanet;
+import ru.vsu.cs.course2.a1pha.paintable.stars.BigStar;
+import ru.vsu.cs.course2.a1pha.paintable.stars.SmallStar;
+import ru.vsu.cs.course2.a1pha.paintable.MousePointer;
 import ru.vsu.cs.course2.a1pha.paintable.PaintableObjectGenerator;
 import ru.vsu.cs.course2.a1pha.paintable.tick_moving.Comet;
 import ru.vsu.cs.course2.a1pha.paintable.tick_moving.FallingStar;

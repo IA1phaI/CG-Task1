@@ -1,4 +1,4 @@
-package ru.vsu.cs.course2.a1pha.paintable.objects.stars;
+package ru.vsu.cs.course2.a1pha.paintable.stars;
 
 import ru.vsu.cs.course2.a1pha.paintable.PaintableObject;
 

@@ -3,7 +3,7 @@ package ru.vsu.cs.course2.a1pha.paintable;
 import ru.vsu.cs.course2.a1pha.PlanetSystemSettings;
 import ru.vsu.cs.course2.a1pha.paintable.tick_moving.Comet;
 import ru.vsu.cs.course2.a1pha.paintable.tick_moving.FallingStar;
-import ru.vsu.cs.course2.a1pha.paintable.objects.stars.SmallStar;
+import ru.vsu.cs.course2.a1pha.paintable.stars.SmallStar;
 import ru.vsu.cs.course2.a1pha.paintable.tick_moving.UFO;
 
 import java.awt.*;

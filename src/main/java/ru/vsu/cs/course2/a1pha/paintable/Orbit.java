@@ -1,6 +1,5 @@
-package ru.vsu.cs.course2.a1pha.paintable.objects;
+package ru.vsu.cs.course2.a1pha.paintable;
 
-import ru.vsu.cs.course2.a1pha.paintable.PaintableObject;
 import ru.vsu.cs.course2.a1pha.utils.Point;
 
 import java.awt.*;
